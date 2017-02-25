@@ -1,12 +1,15 @@
-/* This file is for your main application css. */
-
+@import "bootstrap"; /* imports node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss */
 @import url('https://fonts.googleapis.com/css?family=Rancho');
+
+@import "phoenix";
+
+$primary-color: #9AB556;
+
 body {
-    background: #9AB556;
+    background: $primary-color;
     color: white;
     font-family: 'Rancho';
 }
-
 
 .logo {
     width: auto;
@@ -56,5 +59,5 @@ a {
 
 .nav>li>a:hover {
     background-color: white;
-    color: #9AB556;
+    color: $primary-color;
 }

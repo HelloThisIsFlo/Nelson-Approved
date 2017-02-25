@@ -22,8 +22,7 @@ exports.config = {
     stylesheets: {
       joinTo: "css/app.css",
       order: {
-        before: ["web/static/css/starterkit.css"],  // concat starterkit.css first
-        after:  ["web/static/css/app.css"] // concat app.css last
+        after:  ["web/static/css/app.scss"] // concat app.css last
       }
     },
     templates: {
@@ -55,6 +54,14 @@ exports.config = {
     babel: {
       // Do not use ES6 compiler in vendor code
       ignore: [/web\/static\/vendor/]
+    },
+    sass: {
+        options: {
+            // tell sass-brunch where to look for files to @import
+            includePaths: ["node_modules/bootstrap-sass/assets/stylesheets"],
+            // minimum precision required by bootstrap-sass
+            precision: 8
+        }
     }
   },
 
@@ -65,6 +72,13 @@ exports.config = {
   },
 
   npm: {
-    enabled: true
+    enabled: true,
+      globals: {
+        // bootstrap-sass' JavaScript requires both '$' and 'jQuery' in global scope
+        $: 'jquery',
+        jQuery: 'jquery',
+        // require bootstrap-sass' JavaScript globally
+        bootstrap: 'bootstrap-sass'
+    }
   }
 };
