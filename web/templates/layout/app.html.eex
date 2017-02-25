@@ -24,7 +24,9 @@
               <% end %>
           </ul>
         </nav>
-        <img src="/images/logo.png" class="logo"></img>
+        <%= link to: page_path(@conn, :index) do %>
+            <img src="/images/logo.png" class="logo"></img>
+        <% end %>
       </header>
 
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
