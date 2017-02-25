@@ -1,23 +1,57 @@
 /* This file is for your main application css. */
-@import url('https://fonts.googleapis.com/css?family=Rancho');
 
+@import url('https://fonts.googleapis.com/css?family=Rancho');
 body {
     background: #9AB556;
     color: white;
     font-family: 'Rancho';
 }
 
+
+.logo {
+    width: auto;
+    height: auto;
+    max-height: 90px;
+    max-width: 170px;
+
+    display: inline-block;
+    margin-bottom: 1em;
+}
+
+.nav>li>a {
+    font-size: 2em;
+}
+
+@media screen and (min-width: 768px) {
+    main {
+        margin-top: 200px;
+    }
+    .logo {
+        max-height: 90px;
+        max-width: 519px;
+    }
+
+    .nav>li>a {
+        font-size: 3em;
+    }
+}
+
 a {
     color: white;
+}
+
+
+#why>h1 {
+    font-size: 4em;
+}
+
+#why>p {
+    font-size: 2em;
 }
 
 .main-prompt {
     /* border: solid red 1px; */
     font-size: 10em;
-}
-
-.nav>li>a {
-    font-size: 3em;
 }
 
 .nav>li>a:hover {
