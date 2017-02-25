@@ -22,7 +22,8 @@ exports.config = {
     stylesheets: {
       joinTo: "css/app.css",
       order: {
-        after: ["web/static/css/app.css"] // concat app.css last
+        before: ["web/static/css/starterkit.css"],  // concat starterkit.css first
+        after:  ["web/static/css/app.css"] // concat app.css last
       }
     },
     templates: {
