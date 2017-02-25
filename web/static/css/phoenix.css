@@ -15,6 +15,7 @@ form.link, form.button {
 /* Custom page header */
 .header {
   border-bottom: 1px solid #e5e5e5;
+  margin-bottom: 30px;
 }
 
 .logo {
@@ -37,7 +38,7 @@ form.link, form.button {
 /* Customize container */
 @media (min-width: 768px) {
   .container {
-    max-width: 730px;
+    /* max-width: 730px; */
   }
 }
 .container-narrow > hr {
@@ -47,7 +48,6 @@ form.link, form.button {
 /* Main marketing message */
 .jumbotron {
   text-align: center;
-  border-bottom: 1px solid #e5e5e5;
 }
 
 /* Supporting marketing content */
@@ -62,13 +62,5 @@ form.link, form.button {
   .marketing {
     padding-right: 0;
     padding-left: 0;
-  }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
   }
 }

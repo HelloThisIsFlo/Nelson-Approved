@@ -1,14 +1,26 @@
 /* This file is for your main application css. */
+@import url('https://fonts.googleapis.com/css?family=Rancho');
 
 body {
     background: #9AB556;
     color: white;
+    font-family: 'Rancho';
 }
 
 a {
     color: white;
 }
 
-.jumbotron {
-    background: #9b9b9b;
+.main-prompt {
+    /* border: solid red 1px; */
+    font-size: 10em;
+}
+
+.nav>li>a {
+    font-size: 3em;
+}
+
+.nav>li>a:hover {
+    background-color: white;
+    color: #9AB556;
 }

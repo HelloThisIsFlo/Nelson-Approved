@@ -14,9 +14,11 @@ defmodule NelsonApproved.Router do
   end
 
   scope "/", NelsonApproved do
-    pipe_through :browser # Use the default browser stack
+    pipe_through :browser
 
-    get "/", PageController, :index
+    get  "/",    PageController, :index
+    get  "/why", PageController, :why
+    post "/",    PageController, :check
   end
 
   # Other scopes may use custom stacks.

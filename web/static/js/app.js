@@ -19,3 +19,9 @@ import "phoenix_html"
 // paths "./socket" or full ones "web/static/js/socket".
 
 // import socket from "./socket"
+
+
+// const div = document.getElementById('test')
+// div.innerHTML = div.innerHTML + "<p>Test Hello :D :D</p>"
+// console.log(div)
+
