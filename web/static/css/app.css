@@ -1,1 +1,14 @@
 /* This file is for your main application css. */
+
+body {
+    background: #9AB556;
+    color: white;
+}
+
+a {
+    color: white;
+}
+
+.jumbotron {
+    background: #9b9b9b;
+}
