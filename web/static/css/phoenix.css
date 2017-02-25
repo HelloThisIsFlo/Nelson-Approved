@@ -16,13 +16,16 @@ form.link, form.button {
 .header {
   border-bottom: 1px solid #e5e5e5;
 }
+
 .logo {
-  width: 519px;
-  height: 71px;
-  display: inline-block;
-  margin-bottom: 1em;
-  background-image: url("/images/phoenix.png");
-  background-size: 519px 71px;
+
+    width: auto;
+    height: auto;
+    max-height: 90px;
+    max-width: 519px;
+
+    display: inline-block;
+    margin-bottom: 1em;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
