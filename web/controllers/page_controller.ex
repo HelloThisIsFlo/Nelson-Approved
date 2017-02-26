@@ -17,7 +17,16 @@ defmodule NelsonApproved.PageController do
   end
 
   def check(conn, %{"check" => %{"food" => food}}) do
-    IO.inspect food
-    render conn, "index.html", result: :approved
+    result = cond do
+      String.starts_with?(food, "a") ->
+        :approved
+
+      String.starts_with?(food, "b") ->
+        :not_approved
+
+      true ->
+        :unknown
+    end
+    render conn, "index.html", result: result
   end
 end
