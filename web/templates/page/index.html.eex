@@ -6,9 +6,9 @@
 
 <div class="row" >
     <div class="col-sm-6 col-sm-offset-3" >
-        <%= form_for @conn, page_path(@conn, :check), [as: :check], fn f -> %>
+        <%= form_for @conn, page_path(@conn, :check), [as: :check, id: "check-form"],  fn f -> %>
             <div class="form-group" >
-                <%= text_input f, :food, class: "form-control input-lg", placeholder: raw("Type a food &hellip;") %>
+                <%= text_input f, :food, class: "form-control input-xl", placeholder: raw("Type a food &hellip;") %>
             </div>
             <div class="form-group" >
                 <%= submit "Check it", class: "btn btn-primary center-block" %>

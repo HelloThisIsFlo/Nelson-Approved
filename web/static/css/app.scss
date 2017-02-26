@@ -13,7 +13,7 @@ $primary-color: #9AB556;
 // Common //////////////////////////////////
 main {
     @include from-tablet {
-        margin-top: 200px;
+        margin-top: 130px;
     }
 }
 body, a {
@@ -51,8 +51,31 @@ body, a {
 
 // Main page //////////////////////////////////
 .main-prompt {
-    /* border: solid red 1px; */
-    font-size: 10em;
+    font-size: 7em;
+    @include from-tablet {
+        font-size: 10em;
+    }
+}
+
+#check-form {
+    .form-group {
+       padding-top: 10px;
+    }
+    button {
+        background-color: white;
+        border: white;
+        color: $primary-color;
+
+        padding: 5px 80px;
+        font-size: 3.5em;
+        border-radius: 8px;
+    }
+}
+
+.input-xl {
+    font-size: 3.5em;
+    height: 60px;
+    border-radius: 8px;
 }
 
 
