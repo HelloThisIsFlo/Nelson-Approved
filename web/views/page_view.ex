@@ -1,9 +1,9 @@
 defmodule NelsonApproved.PageView do
   use NelsonApproved.Web, :view
 
-  @approved "Great, it's approved :D :D"
-  @not_approved "Stay off that food"
-  @unknown "Actually not sure about that one"
+  @approved     "Great, it's approved :D :D"
+  @not_approved "Stay off that food O_O"
+  @unknown      "Actually not sure about that one :/"
 
   def show_result(:approved) do
     make_alert "alert-success", @approved
