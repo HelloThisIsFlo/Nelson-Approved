@@ -5,7 +5,13 @@ defmodule NelsonApproved.UserSocket do
   # channel "room:*", NelsonApproved.RoomChannel
 
   ## Transports
-  transport :websocket, Phoenix.Transports.WebSocket
+  transport :websocket, Phoenix.Transports.WebSocket,
+    # Setting for Heroku:
+    # -------------------
+    # This ensures that any idle connections are closed by Phoenix
+    # before they reach Heroku's 55 second timeout window.
+    timeout: 45_000
+
   # transport :longpoll, Phoenix.Transports.LongPoll
 
   # Socket params are passed from the client and can
@@ -34,4 +40,7 @@ defmodule NelsonApproved.UserSocket do
   #
   # Returning `nil` makes this socket anonymous.
   def id(_socket), do: nil
+
+
+
 end
