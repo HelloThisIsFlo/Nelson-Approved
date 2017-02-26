@@ -1,63 +1,65 @@
-@import "bootstrap"; /* imports node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss */
-@import url('https://fonts.googleapis.com/css?family=Rancho');
+@import "base";
 
-@import "phoenix";
-
+/*-----------------*\
+|    Variables      |
+\*-----------------*/
 $primary-color: #9AB556;
 
-body {
+
+/*-----------------*\
+|      Style        |
+\*-----------------*/
+
+// Common //////////////////////////////////
+main {
+    @include from-tablet {
+        margin-top: 200px;
+    }
+}
+body, a {
     background: $primary-color;
     color: white;
     font-family: 'Rancho';
 }
 
+// Header //////////////////////////////////
 .logo {
     width: auto;
     height: auto;
+
     max-height: 90px;
     max-width: 170px;
-
-    display: inline-block;
-    margin-bottom: 1em;
-}
-
-.nav>li>a {
-    font-size: 2em;
-}
-
-@media screen and (min-width: 768px) {
-    main {
-        margin-top: 200px;
-    }
-    .logo {
+    @include from-tablet {
         max-height: 90px;
         max-width: 519px;
     }
 
-    .nav>li>a {
+    display: inline-block;
+    margin-bottom: 1em;
+}
+.nav>li>a {
+    font-size: 2em;
+    @include from-tablet {
         font-size: 3em;
+    }
+
+    &:hover {
+        background-color: white;
+        color: $primary-color;
     }
 }
 
-a {
-    color: white;
-}
-
-
-#why>h1 {
-    font-size: 4em;
-}
-
-#why>p {
-    font-size: 2em;
-}
-
+// Main page //////////////////////////////////
 .main-prompt {
     /* border: solid red 1px; */
     font-size: 10em;
 }
 
-.nav>li>a:hover {
-    background-color: white;
-    color: $primary-color;
+
+// Why page //////////////////////////////////
+#why {
+    h1 {font-size: 4em;}
+    p {font-size: 2em;}
 }
+
+
