@@ -13,7 +13,7 @@ $primary-color: #9AB556;
 // Common //////////////////////////////////
 main {
     @include from-tablet {
-        margin-top: 130px;
+        margin-top: 100px;
     }
 }
 body, a {
@@ -28,9 +28,9 @@ body, a {
     height: auto;
 
     max-height: 90px;
-    max-width: 170px;
+    max-width: 200px;
     @include from-tablet {
-        max-height: 90px;
+        max-height: 120px;
         max-width: 519px;
     }
 
@@ -51,15 +51,19 @@ body, a {
 
 // Main page //////////////////////////////////
 .main-prompt {
-    font-size: 7em;
+    font-size: 4.5em;
+
     @include from-tablet {
         font-size: 10em;
     }
 }
 
 #check-form {
+    @include from-tablet {
+        padding-top: 25px;
+    }
     .form-group {
-       padding-top: 10px;
+       padding-top: 30px;
     }
     button {
         background-color: white;
