@@ -33,5 +33,19 @@ defmodule NelsonApproved.FoodTest do
     refute from_repo_not_approved.approved
   end
 
+  test "can not insert food with duplicate name" do
+    # Given: A food already exist with same name
+    Repo.insert!(%Food{name: "existing", approved: false})
+
+    # Then: Error happens on insert
+    changeset = Food.changeset(%Food{}, %{name: "existing", approved: true})
+    assert {:error, changeset} = Repo.insert(changeset)
+    assert {:name, {"has already been taken", []}} in changeset.errors
+
+    # And: Repo only contains 1 element with name
+    from_repo = Repo.all(Food)
+    assert Enum.count(from_repo) == 1
+  end
+
 
 end

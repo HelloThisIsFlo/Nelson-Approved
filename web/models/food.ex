@@ -15,5 +15,6 @@ defmodule NelsonApproved.Food do
     struct
     |> cast(params, [:name, :approved])
     |> validate_required([:name, :approved])
+    |> unique_constraint(:name)
   end
 end
