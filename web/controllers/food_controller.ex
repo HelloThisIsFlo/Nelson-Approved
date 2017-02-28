@@ -12,12 +12,22 @@ defmodule NelsonApproved.FoodController do
     render conn, "index.html", foods: Repo.all(Food)
   end
 
-  def new(conn, _paramd) do
-    render conn, "new.html"
+  def new(conn, _params) do
+    changeset = Food.changeset(%Food{})
+    render conn, "new.html", changeset: changeset
   end
 
-  def create(conn, _params) do
-    redirect(conn, to: food_path(conn, :index))
+  def create(conn, %{"food" => %{"name" => name, "approved" => approved}}) do
+    changeset =
+      %Food{}
+      |> Food.changeset(%{name: name, approved: approved})
+
+    case Repo.insert changeset do
+      {:ok, _} ->
+        redirect(conn, to: food_path(conn, :index))
+      {:error, changeset} ->
+        render conn, "new.html", changeset: changeset
+    end
   end
 
   def delete(conn, %{"id" => id}) do

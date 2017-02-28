@@ -1,19 +1,28 @@
 <h1 class="text-center">Listing Foods</h1>
 
-<table class="table" >
+<table class="table">
+    <thead>
+        <tr>
+            <td>Bill Murray</td>
+            <td>Name</td>
+            <td>Approved ?</td>
+            <td>Actions</td>
+        </tr>
+    </thead>
+    <tbody>
     <%= for food <- @foods do %>
         <tr>
-            <td class="profile-picture"><img src="http://www.fillmurray.com/50/50"/>
-            <td><%= food.name %></td>
-            <td>
-                <%= link "Delete", to: food_path(@conn, :delete, food),
-                                   method: :delete,
-                                   data: [confirm: "Are you sure?"],
-                                   class: "btn btn-danger btn-xs" %>
+            <td class="profile-picture"><img src="http://www.fillmurray.com/50/50" /></td>
+            <td> <%= food.name %> </td>
+            <td> <%= food.approved %> </td>
+            <td> <%= link "Delete", to: food_path(@conn, :delete, food),
+                                method: :delete,
+                                data: [confirm: "Are you sure?"],
+                                class: "btn btn-danger btn-xs" %>
             </td>
-
         </tr>
     <% end %>
+    </tbody>
 </table>
 
-
+<%= link "Add new", to: food_path(@conn, :new), class: "btn btn-primary btn-lg" %>
