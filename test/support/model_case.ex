@@ -22,6 +22,7 @@ defmodule NelsonApproved.ModelCase do
       import Ecto.Changeset
       import Ecto.Query
       import NelsonApproved.ModelCase
+      import NelsonApproved.TestHelpers
     end
   end
 

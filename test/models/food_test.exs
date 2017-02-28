@@ -35,7 +35,7 @@ defmodule NelsonApproved.FoodTest do
 
   test "can not insert food with duplicate name" do
     # Given: A food already exist with same name
-    Repo.insert!(%Food{name: "existing", approved: false})
+    insert_food("existing", false)
 
     # Then: Error happens on insert
     changeset = Food.changeset(%Food{}, %{name: "existing", approved: true})

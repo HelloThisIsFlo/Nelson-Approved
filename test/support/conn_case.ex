@@ -26,6 +26,7 @@ defmodule NelsonApproved.ConnCase do
       import Ecto.Query
 
       import NelsonApproved.Router.Helpers
+      import NelsonApproved.TestHelpers
 
       # The default endpoint for testing
       @endpoint NelsonApproved.Endpoint
