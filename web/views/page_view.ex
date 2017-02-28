@@ -18,7 +18,7 @@ defmodule NelsonApproved.PageView do
 
 
   defp make_alert(class, content) do
-    class = "alert " <> class
+    class = "result alert " <> class
     content_tag :h1, class: class, role: "alert" do
       content
     end

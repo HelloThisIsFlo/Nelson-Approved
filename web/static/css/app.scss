@@ -22,6 +22,9 @@ body, a {
     font-family: 'Rancho';
 }
 
+.alert:empty { display: none; }
+
+
 // Header //////////////////////////////////
 .logo {
     width: auto;
