@@ -7,7 +7,9 @@ use Mix.Config
 
 # General application configuration
 config :nelson_approved,
-  ecto_repos: [NelsonApproved.Repo]
+  ecto_repos: [NelsonApproved.Repo],
+  nelson_approved: NelsonApproved
+
 
 # Configures the endpoint
 config :nelson_approved, NelsonApproved.Endpoint,

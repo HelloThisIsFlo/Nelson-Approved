@@ -1,6 +1,8 @@
 defmodule NelsonApproved.PageController do
   use NelsonApproved.Web, :controller
 
+  @nelson_approved Application.fetch_env!(:nelson_approved, :nelson_approved)
+
   plug :put_default_values
   def put_default_values(conn, _params) do
     conn
@@ -17,16 +19,7 @@ defmodule NelsonApproved.PageController do
   end
 
   def check(conn, %{"check" => %{"food" => food}}) do
-    result = cond do
-      String.starts_with?(food, "a") ->
-        :approved
-
-      String.starts_with?(food, "b") ->
-        :not_approved
-
-      true ->
-        :unknown
-    end
+    result = @nelson_approved.approved?(food)
     render conn, "index.html", result: result
   end
 end

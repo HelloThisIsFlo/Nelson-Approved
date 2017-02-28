@@ -3,6 +3,12 @@ defmodule NelsonApproved do
   alias NelsonApproved.Repo
   import Ecto.Query
 
+  defmodule Behaviour do
+    @callback approved?(String.t) :: :approved | :not_approved | :unknown
+  end
+
+  @behaviour NelsonApproved.Behaviour
+
   @spec approved?(String.t) :: :approved | :not_approved | :unknown
   def approved?(food) do
     food

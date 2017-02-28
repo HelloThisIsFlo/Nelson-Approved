@@ -17,3 +17,7 @@ config :nelson_approved, NelsonApproved.Repo,
   database: "nelson_approved_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
+
+# Mock nelson approved service
+config :nelson_approved,
+  nelson_approved: NelsonApproved.NelsonApprovedMock
