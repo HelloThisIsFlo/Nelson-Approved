@@ -24,6 +24,13 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+# Configure authentication
+config :nelson_approved,
+  # Password hash for password "abcd"
+  pass_hash: "$2b$12$UuF55EREAZLM6F5Hgj/J8u4jK.LKF0uDvcczZuDaUbH.KGc9Kzwmy"
+
+
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

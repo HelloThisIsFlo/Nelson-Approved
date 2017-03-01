@@ -26,6 +26,11 @@ config :nelson_approved, NelsonApproved.Repo,
   pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
   ssl: true
 
+# Configure authentication
+config :nelson_approved,
+  pass_hash: System.get_env("PASS_HASH")
+
+
 # Do not print debug messages in production
 config :logger, level: :info
 
@@ -65,6 +70,3 @@ config :logger, level: :info
 #
 #     config :nelson_approved, NelsonApproved.Endpoint, server: true
 #
-
-# Finally import the config/prod.secret.exs
-# which should be versioned separately.
