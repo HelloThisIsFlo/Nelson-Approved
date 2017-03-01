@@ -21,13 +21,14 @@ defmodule NelsonApproved.Router do
     get  "/",    PageController, :index
     get  "/why", PageController, :why
     post "/",    PageController, :check
+
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
   scope "/manage", NelsonApproved do
     pipe_through :browser
 
     resources "/foods", FoodController, only: [:index, :new, :create, :delete]
-
   end
 
   # Other scopes may use custom stacks.
