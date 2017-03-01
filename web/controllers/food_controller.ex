@@ -2,12 +2,6 @@ defmodule NelsonApproved.FoodController do
   use NelsonApproved.Web, :controller
   alias NelsonApproved.Food
 
-  plug :put_default_values
-  def put_default_values(conn, _params) do
-    conn
-    |> assign(:show_why?, false)
-  end
-
   def index(conn, _params) do
     render conn, "index.html", foods: Repo.all(Food)
   end

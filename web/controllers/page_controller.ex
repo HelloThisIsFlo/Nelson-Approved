@@ -6,7 +6,6 @@ defmodule NelsonApproved.PageController do
   plug :put_default_values
   def put_default_values(conn, _params) do
     conn
-    |> assign(:show_why?, true)
     |> assign(:result, :no_result)
   end
 

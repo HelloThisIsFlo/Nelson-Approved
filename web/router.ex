@@ -1,5 +1,6 @@
 defmodule NelsonApproved.Router do
   use NelsonApproved.Web, :router
+  alias NelsonApproved.DefaultValues
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -7,6 +8,7 @@ defmodule NelsonApproved.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug DefaultValues, show_why?: false
   end
 
   pipeline :api do
