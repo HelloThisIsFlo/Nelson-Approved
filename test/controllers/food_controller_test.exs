@@ -35,7 +35,7 @@ defmodule NelsonApproved.FoodControllerTest do
 
   test "create adds food to repo and redirect", %{conn: conn} do
     # Given: No food in Repo
-    assert 0 == Enum.count(Repo.all(Food))
+    assert 0 == Food |> Repo.all |> Enum.count
 
     # When: Creating
     conn = post conn, food_path(conn, :index), food: %{name: "Carrot", approved: true}
