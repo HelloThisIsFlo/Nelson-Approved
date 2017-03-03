@@ -1,7 +1,12 @@
-<h1 class="text-center">This is the login page :D</h1>
+<h1 class="text-center">Login</h1>
 
-<%= button "Fake Login",
-            to: "/",
-            method: "get",
-            class: "btn btn-primary center-block" %>
+<%= form_for @conn, session_path(@conn, :create), [as: :login], fn f -> %>
+    <div class="form-group">
+        <%= label f, :name %>
+        <%= password_input f, :password,
+                            class: "form-control input-xl",
+                            placeholder: raw("Password for dev: abcd") %>
+    </div>
+    <%= submit "Login", class: "btn btn-primary " %>
+<% end %>
 

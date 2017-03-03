@@ -18,7 +18,7 @@ defmodule NelsonApproved.SessionControllerTest do
   describe "login" do
     test "correct password, redirects to food page", %{conn: conn} do
       # Password for test and dev is "abcd", see `config.exs`
-      conn = post conn, session_path(conn, :create), password: "abcd"
+      conn = post_login_form conn, "abcd"
 
       assert get_flash(conn, :info) =~ "Logged in!"
       assert get_session(conn, :logged_in?)
@@ -28,10 +28,18 @@ defmodule NelsonApproved.SessionControllerTest do
     end
 
     test "wrong password", %{conn: conn} do
-      conn = post conn, session_path(conn, :create), password: "xxxx"
+      conn = post_login_form conn, "xxxx"
       assert get_flash(conn, :error) =~ "Wrong password!"
       assert_on_login_page conn
     end
+
+    test "empty password", %{conn: conn} do
+      conn = post_login_form conn, ""
+      assert_on_login_page conn
+    end
+
+    defp post_login_form(conn, password),
+      do: post conn, session_path(conn, :create), login: %{password: password}
   end
 
   describe "logout" do
@@ -46,9 +54,7 @@ defmodule NelsonApproved.SessionControllerTest do
       conn = delete(conn, session_path(conn, :delete, :not_used))
 
       # Then: User is logged out
-      assert get_flash(conn, :info) =~ "Logged out!"
       assert redirected_to(conn) =~ page_path(conn, :index)
-
       refute still_logged_in_after_new_connection(conn)
     end
   end

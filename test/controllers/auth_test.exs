@@ -31,7 +31,7 @@ defmodule NelsonApproved.AuthTest do
     assert get_session(new_conn, :logged_in?) == true
   end
 
-  test "logout drops the session", %{conn: conn} do
+  test "logout drops the session, and halts connection", %{conn: conn} do
     conn =
       conn
       |> put_session(:logged_in?, true)

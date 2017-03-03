@@ -1,10 +1,7 @@
 defmodule NelsonApproved.LayoutView do
   use NelsonApproved.Web, :view
+  import Plug.Conn
 
-  def display_why_link(display? \\ true), do: display?
-
-  def logged_in?(conn) do
-    true
-  end
+  def logged_in?(conn), do: get_session(conn, :logged_in?) == true
 
 end
