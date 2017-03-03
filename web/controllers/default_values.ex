@@ -8,7 +8,7 @@ defmodule NelsonApproved.DefaultValues do
   # `opts` in the `init(opts)` call.
   def call(conn, show_why?: show_why?) do
     conn
-    |> assign(:show_why?, false)
+    |> assign(:show_why?, show_why?)
   end
 
 end

@@ -10,11 +10,11 @@ defmodule NelsonApproved.PageController do
   end
 
   def index(conn, _params) do
-    render conn, "index.html", show_why?: true
+    render conn, "index.html"
   end
 
   def why(conn, _params) do
-    render conn, "why.html"
+    render conn, "why.html", show_why?: false
   end
 
   def check(conn, %{"check" => %{"food" => food}}) do
