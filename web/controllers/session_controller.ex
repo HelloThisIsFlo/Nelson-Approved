@@ -15,7 +15,7 @@ defmodule NelsonApproved.SessionController do
     defp do_login({:ok, conn}) do
       conn
       |> put_flash(:info, "Logged in!")
-      |> redirect(to: page_path(conn, :index))
+      |> redirect(to: food_path(conn, :index))
     end
     defp do_login({:error, conn}) do
       conn
@@ -24,6 +24,9 @@ defmodule NelsonApproved.SessionController do
     end
 
     def delete(conn, _params) do
-      render conn, "new.html"
+      conn
+      |> put_flash(:info, "Logged out!")
+      |> Auth.logout()
+      |> redirect(to: page_path(conn, :index))
     end
 end
