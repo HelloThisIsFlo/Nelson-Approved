@@ -46,4 +46,26 @@ defmodule NelsonApproved.AuthTest do
     assert get_session(new_conn, :logged_in?) == nil
   end
 
+  describe "authenticate/1" do
+    test "redirects if not logged-in", %{conn: conn} do
+      conn =
+        conn
+        |> Auth.authenticate([])
+
+      assert conn.halted
+      assert redirected_to(conn) =~ page_path(conn, :index)
+      assert get_flash(conn, :error) =~ "must be logged-in"
+    end
+
+    test "does not redirect if user logged-in", %{conn: conn} do
+      conn =
+        conn
+        |> Auth.login()
+        |> Auth.authenticate([])
+
+      refute conn.halted()
+      refute conn.state == :sent
+    end
+  end
+
 end
