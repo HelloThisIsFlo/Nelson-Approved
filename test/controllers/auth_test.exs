@@ -46,7 +46,20 @@ defmodule NelsonApproved.AuthTest do
     assert get_session(new_conn, :logged_in?) == nil
   end
 
-  describe "authenticate/1" do
+  describe "login_with_password/2" do
+    test "wrong password, doesn't log-in", %{conn: conn} do
+      {:error, conn} = Auth.login_with_password(conn, "xxxxxxx")
+      refute get_session(conn, :logged_in?)
+    end
+
+    test "correct password, log-in", %{conn: conn} do
+      # Password for test and dev is "abcd", see `config.exs`
+      {:ok, conn} = Auth.login_with_password(conn, "abcd")
+      assert get_session(conn, :logged_in?)
+    end
+  end
+
+  describe "authenticate/2" do
     test "redirects if not logged-in", %{conn: conn} do
       conn =
         conn

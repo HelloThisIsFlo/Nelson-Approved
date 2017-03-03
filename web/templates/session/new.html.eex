@@ -1,1 +1,7 @@
-<h1>This is the login page :D</h1>
+<h1 class="text-center">This is the login page :D</h1>
+
+<%= button "Fake Login",
+            to: "/",
+            method: "get",
+            class: "btn btn-primary center-block" %>
+

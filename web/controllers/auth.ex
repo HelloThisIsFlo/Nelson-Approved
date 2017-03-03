@@ -3,16 +3,7 @@ defmodule NelsonApproved.Auth do
   import Phoenix.Controller
   import Plug.Conn
 
-  def login(conn) do
-    conn
-    |> put_session(:logged_in?, true)
-    |> configure_session(renew: true)
-  end
-
-  def logout(conn) do
-    conn
-    |> configure_session(drop: true)
-  end
+  @pass_hash Application.fetch_env!(:nelson_approved, :pass_hash)
 
   def authenticate(conn, _params) do
     do_authenticate(conn, get_session(conn, :logged_in?))
@@ -26,7 +17,24 @@ defmodule NelsonApproved.Auth do
     |> redirect(to: page_path(conn, :index))
   end
 
+  def login(conn) do
+    conn
+    |> put_session(:logged_in?, true)
+    |> configure_session(renew: true)
+  end
 
+  def logout(conn) do
+    conn
+    |> configure_session(drop: true)
+  end
+
+  def login_with_password(conn, password) do
+    if Comeonin.Bcrypt.checkpw(password, @pass_hash) do
+      {:ok, login(conn)}
+    else
+      {:error, conn}
+    end
+  end
 
 
 end
