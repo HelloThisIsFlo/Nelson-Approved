@@ -21,3 +21,9 @@ config :nelson_approved, NelsonApproved.Repo,
 # Mock nelson approved service
 config :nelson_approved,
   nelson_approved: NelsonApproved.NelsonApprovedMock
+
+# Reduce hash strength for faster tests (only in tests)
+config :comeonin,
+  bcrypt_log_rounds: 4,
+  pbkdf2_rounds: 1
+

@@ -27,7 +27,7 @@ config :logger, :console,
 # Configure authentication
 config :nelson_approved,
   # Password hash for password "abcd"
-  pass_hash: "$2b$12$UuF55EREAZLM6F5Hgj/J8u4jK.LKF0uDvcczZuDaUbH.KGc9Kzwmy"
+  pass_hash: "$2b$04$BiPDNPnHjP7YP.tboXCbRupm.andQMVrV0ra4DyW1PfK0h2P5mpqW"
 
 
 
