@@ -21,12 +21,6 @@
               <%= if @show_why? do %>
                 <li> <%= link "Why?", to: page_path(@conn, :why) %> </li>
               <% end %>
-              <li> <%= link "Foods (temp)", to: food_path(@conn, :index) %> </li>
-              <%= if logged_in?(@conn) do %>
-                  <li> <%= link "Logout (temp)", method: "delete", to: session_path(@conn, :delete, :not_used)%> </li>
-              <% else %>
-                <li> <%= link "Login (temp)", to: session_path(@conn, :new) %> </li>
-              <% end %>
           </ul>
         </nav>
         <%= link to: page_path(@conn, :index) do %>
@@ -40,6 +34,19 @@
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
       </main>
+
+      <div class="row" >
+          <div class="col-xs-12" >
+              <ul>
+                <li> <%= link "Foods (temp)", to: food_path(@conn, :index) %> </li>
+                <%= if logged_in?(@conn) do %>
+                    <li> <%= link "Logout (temp)", method: "delete", to: session_path(@conn, :delete, :not_used)%> </li>
+                <% else %>
+                    <li> <%= link "Login (temp)", to: session_path(@conn, :new) %> </li>
+                <% end %>
+              </ul>
+          </div>
+      </div>
 
     </div> <!-- /container -->
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
