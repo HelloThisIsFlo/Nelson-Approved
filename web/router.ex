@@ -1,6 +1,7 @@
 defmodule NelsonApproved.Router do
   use NelsonApproved.Web, :router
   alias NelsonApproved.DefaultValues
+  import NelsonApproved.Auth, only: [authenticate: 2]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -26,7 +27,7 @@ defmodule NelsonApproved.Router do
   end
 
   scope "/manage", NelsonApproved do
-    pipe_through :browser
+    pipe_through [:browser, :authenticate]
 
     resources "/foods", FoodController, only: [:index, :new, :create, :delete]
   end

@@ -1,5 +1,5 @@
 defmodule NelsonApproved.Auth do
-  import NelsonApproved.Router.Helpers
+  alias NelsonApproved.Router.Helpers
   import Phoenix.Controller
   import Plug.Conn
 
@@ -14,7 +14,7 @@ defmodule NelsonApproved.Auth do
     conn
     |> halt()
     |> put_flash(:error, "You must be logged-in to access this page")
-    |> redirect(to: page_path(conn, :index))
+    |> redirect(to: Helpers.page_path(conn, :index))
   end
 
   def login(conn) do

@@ -11,10 +11,10 @@ defmodule NelsonApproved.FoodController do
     render conn, "new.html", changeset: changeset
   end
 
-  def create(conn, %{"food" => %{"name" => name, "approved" => approved}}) do
+  def create(conn, %{"food" => food_params}) do
     changeset =
       %Food{}
-      |> Food.changeset(%{name: name, approved: approved})
+      |> Food.changeset(food_params)
 
     case Repo.insert changeset do
       {:ok, _} ->
