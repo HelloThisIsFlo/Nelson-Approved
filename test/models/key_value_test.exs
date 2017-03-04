@@ -29,6 +29,6 @@ defmodule NelsonApproved.KeyValueTest do
 
     # Then: error when adding to repo
     changeset = KeyValue.changeset(%KeyValue{}, %{key: "existing", value: 3})
-    assert {:error, changeset} = Repo.insert(changeset)
+    assert {:error, _changeset} = Repo.insert(changeset)
   end
 end
