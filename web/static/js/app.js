@@ -29,7 +29,6 @@ import "phoenix_html"
 ///////////////////////////////////////////////////////////////////////////////
 //              Hide sugestion if empty (but keep in the layout)             //
 ///////////////////////////////////////////////////////////////////////////////
-
 const suggestionDiv = document.getElementById('suggestion');
 if (!suggestionDiv.dataset.suggestion) {
     suggestionDiv.style.visibility = 'hidden';
