@@ -14,6 +14,7 @@ defmodule NelsonApproved.Application do
       supervisor(NelsonApproved.Endpoint, []),
       # Start your own worker by calling: NelsonApproved.Worker.start_link(arg1, arg2, arg3)
       # worker(NelsonApproved.Worker, [arg1, arg2, arg3]),
+      worker(NelsonApproved.FoodNames, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

@@ -10,6 +10,12 @@ config :nelson_approved,
   ecto_repos: [NelsonApproved.Repo],
   nelson_approved: NelsonApproved
 
+# Configure authentication
+config :nelson_approved,
+  # Password hash for password "abcd"
+  pass_hash: "$2b$04$BiPDNPnHjP7YP.tboXCbRupm.andQMVrV0ra4DyW1PfK0h2P5mpqW",
+  food_names_file: "./lib/food.txt"
+
 
 # Configures the endpoint
 config :nelson_approved, NelsonApproved.Endpoint,
@@ -23,12 +29,6 @@ config :nelson_approved, NelsonApproved.Endpoint,
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
-
-# Configure authentication
-config :nelson_approved,
-  # Password hash for password "abcd"
-  pass_hash: "$2b$04$BiPDNPnHjP7YP.tboXCbRupm.andQMVrV0ra4DyW1PfK0h2P5mpqW"
-
 
 
 # Import environment specific config. This must remain at the bottom

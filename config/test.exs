@@ -18,9 +18,11 @@ config :nelson_approved, NelsonApproved.Repo,
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
-# Mock nelson approved service
+# Config for tests
 config :nelson_approved,
-  nelson_approved: NelsonApproved.NelsonApprovedMock
+  nelson_approved: NelsonApproved.NelsonApprovedMock,
+  food_names_file: "./test/food.txt"
+
 
 # Reduce hash strength for faster tests (only in tests)
 config :comeonin,

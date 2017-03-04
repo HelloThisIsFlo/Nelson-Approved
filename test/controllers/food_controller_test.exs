@@ -73,11 +73,11 @@ defmodule NelsonApproved.FoodControllerTest do
     assert 0 == Food |> Repo.all |> Enum.count
 
     # When: Creating
-    conn = post conn, food_path(conn, :index), food: %{name: "Carrot", approved: true}
+    conn = post conn, food_path(conn, :index), food: %{name: "carrot", approved: true}
 
     # Then: Redirected and food in repo
     assert redirected_to(conn)=~ food_path(conn, :index)
-    assert Repo.get_by(Food, %{name: "Carrot"}) != nil
+    assert Repo.get_by(Food, %{name: "carrot"}) != nil
   end
 
   @tag :logged_in
@@ -89,11 +89,11 @@ defmodule NelsonApproved.FoodControllerTest do
 
   @tag :logged_in
   test "create food with duplicate name, show error message", %{conn: conn} do
-    # Given: 'Egg' already exists
-    insert_food("Egg")
+    # Given: 'pizza' already exists
+    insert_food("pizza")
 
-    # When: Trying to save 'Egg'
-    conn = post conn, food_path(conn, :index), food: %{name: "Egg", approved: true}
+    # When: Trying to save 'pizza'
+    conn = post conn, food_path(conn, :index), food: %{name: "pizza", approved: true}
 
     # Error is shown
     assert html_response(conn, 200)
