@@ -24,6 +24,7 @@ config :nelson_approved,
   food_names_file: "./test/food.txt"
 
 
+
 # Reduce hash strength for faster tests (only in tests)
 config :comeonin,
   bcrypt_log_rounds: 4,
