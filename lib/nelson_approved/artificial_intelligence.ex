@@ -18,7 +18,7 @@ defmodule NelsonApproved.ArtificialIntelligence do
   end
 
   defp ask_ai(food) do
-    do_ask_ai(@network_ai.semantic_relatedness("a", "b"))
+    do_ask_ai(@network_ai.semantic_relatedness(food, "processed food"))
   end
   defp do_ask_ai(relatedness) when relatedness > @semantic_approved_thres, do: true
   defp do_ask_ai(relatedness) when relatedness < @semantic_not_approved_thres, do: false
@@ -28,12 +28,21 @@ defmodule NelsonApproved.ArtificialIntelligence do
   defp check_and_increment_counter do
     counter = Repo.get_by(KeyValue, %{key: @call_counter_key})
     increment_counter(counter)
-    counter.value < @call_counter_limit
+    value(counter) < @call_counter_limit
+  end
+
+  defp increment_counter(nil) do
+    %KeyValue{}
+    |> KeyValue.changeset(%{key: @call_counter_key, value: 1})
+    |> Repo.insert!()
   end
   defp increment_counter(counter) do
     counter
-    |> KeyValue.changeset(%{value: counter.value + 1})
+    |> KeyValue.changeset(%{value: value(counter) + 1})
     |> Repo.update!()
   end
+  defp value(%KeyValue{value: val}), do: val
+  defp value(_), do: 0
+
 
 end

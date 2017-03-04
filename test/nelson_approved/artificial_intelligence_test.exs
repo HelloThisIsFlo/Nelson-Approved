@@ -46,6 +46,17 @@ defmodule NelsonApproved.ArtificialIntelligenceTest do
       # Then: Call counter has been incremented to 11
       assert 11 == get_call_counter()
     end
+
+    test "call counter not set => set to 0 and increment" do
+      set_mock_ai_response 1
+
+      # When: Calling a eleventh time
+      ArtificialIntelligence.is_processed_food?("whatever")
+
+      # Then: Call counter has been incremented to 11
+      assert 1 == get_call_counter()
+    end
+
   end
 
   defp set_call_counter(counter) do

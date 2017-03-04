@@ -9,7 +9,7 @@ defmodule NelsonApproved.ArtificialIntelligence.Network do
 
   @spec semantic_relatedness(String.t, String.t) :: number
   def semantic_relatedness(word1, word2) do
-    0
+    0.7
   end
 
 
