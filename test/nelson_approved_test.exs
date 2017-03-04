@@ -23,25 +23,15 @@ defmodule NelsonApprovedTest do
     assert :not_approved == NelsonApproved.approved? "pizza"
   end
 
-  describe "close match: " do
-    test "closest_match" do
-      assert "chili" == NelsonApproved.find_closest_match("chil", ["chili"])
-      assert "chili" == NelsonApproved.find_closest_match("chil", ["chili", "pasta"])
-    end
-
-    @tag approved: ["carrot"]
-    test "match with existing name if similar enough" do
-      assert :approved == NelsonApproved.approved? "carrit"
-    end
-
-    @tag approved: ["carrot"]
-    test "does not match with existing name if too different" do
-      refute :approved == NelsonApproved.approved? "carap"
-    end
+  test "closest_match" do
+    assert "chili" == NelsonApproved.find_closest_match("chil", ["chili"])
+    assert "chili" == NelsonApproved.find_closest_match("chil", ["chili", "pasta"])
   end
 
-
-
-
+  @tag approved: ["carrot"]
+  test "ignore case and whitespaces" do
+    assert :approved == NelsonApproved.approved? "cArrOt"
+    assert :approved == NelsonApproved.approved? "   cArrOt   "
+  end
 
 end

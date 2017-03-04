@@ -1,5 +1,4 @@
 defmodule NelsonApproved do
-  alias NelsonApproved.FoodNames
   alias NelsonApproved.Food
   alias NelsonApproved.Repo
   import Ecto.Query
@@ -10,21 +9,14 @@ defmodule NelsonApproved do
   end
 
   @behaviour NelsonApproved.Behaviour
-  # Used to determine if a word is "similar enough" to another one.
-  @similarity_threshold Application.fetch_env!(:nelson_approved, :similarity_threshold)
 
   @spec approved?(String.t) :: :approved | :not_approved | :unknown
-  def approved?(food) do
-    match = find_closest_match(food, FoodNames.all_food_names())
-    dist = String.jaro_distance(food, match)
-
-    if dist > @similarity_threshold do
-      match
-      |> find_one_by_name
-      |> is_approved?
-    else
-      :unknown
-    end
+  def approved?(food) when is_bitstring(food) do
+    food
+    |> String.downcase
+    |> String.trim
+    |> find_one_by_name
+    |> is_approved?
   end
 
   @spec find_one_by_name(String.t) :: %Food{} | :not_found

@@ -45,5 +45,5 @@
 
 <!-- Hidden form -->
 <%= form_for @conn, page_path(@conn, :check), [as: :check, id: "hidden-form"], fn f -> %>
-    <%= hidden_input f, :food, value: @suggestion %>
+    <%= hidden_input f, :food, value: String.capitalize(@suggestion) %>
 <% end %>
