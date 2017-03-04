@@ -6,6 +6,7 @@ defmodule NelsonApproved do
 
   defmodule Behaviour do
     @callback approved?(String.t) :: :approved | :not_approved | :unknown
+    @callback find_closest_match(String.t, [String.t]) :: String.t
   end
 
   @behaviour NelsonApproved.Behaviour
@@ -37,6 +38,7 @@ defmodule NelsonApproved do
   defp is_approved?(%Food{approved: false}), do: :not_approved
   defp is_approved?(_),                      do: :unknown
 
+  @spec find_closest_match(String.t, [String.t]) :: String.t
   def find_closest_match(food_name, all_food_names) do
     all_food_names
     |> Enum.max_by(&String.jaro_distance(&1, food_name))

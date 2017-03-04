@@ -13,10 +13,10 @@ $primary-color: #9AB556;
 // Common //////////////////////////////////
 main {
     @include from-tablet {
-        margin-top: 100px;
+        margin-top: 30px;
     }
 }
-body, a {
+body, a:not(.alert-link) {
     background: $primary-color;
     color: white;
     font-family: 'Rancho';
@@ -62,13 +62,22 @@ body, a {
     }
 }
 
+#suggestion {
+    display: inline;
+    font-size: 1.3em;
+    width: auto;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
 #check-form {
-    @include from-tablet {
-        padding-top: 25px;
-    }
-    .form-group {
-       padding-top: 30px;
-    }
+    /* @include from-tablet { */
+    /*     padding-top: 25px; */
+    /* } */
+    /* .form-group { */
+    /*    padding-top: 30px; */
+    /* } */
     button {
         background-color: white;
         border: white;

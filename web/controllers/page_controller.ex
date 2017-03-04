@@ -7,6 +7,7 @@ defmodule NelsonApproved.PageController do
   def put_default_values(conn, _params) do
     conn
     |> assign(:result, :no_result)
+    |> assign(:suggestion, "")
   end
 
   def index(conn, _params) do
@@ -18,7 +19,23 @@ defmodule NelsonApproved.PageController do
   end
 
   def check(conn, %{"check" => %{"food" => food}}) do
-    result = @nelson_approved.approved?(food)
-    render conn, "index.html", result: result
+    case @nelson_approved.approved?(food) do
+      :unknown ->
+        render conn, "index.html",
+          result: :unknown,
+          suggestion: get_suggestion(food)
+      result ->
+        render conn, "index.html", result: result
+    end
+  end
+
+  defp get_suggestion(food) do
+    suggestion = @nelson_approved.find_closest_match(food, NelsonApproved.FoodNames.all_food_names())
+    food = food |> String.downcase() |> String.trim()
+    if suggestion != food do
+      suggestion
+    else
+      ""
+    end
   end
 end

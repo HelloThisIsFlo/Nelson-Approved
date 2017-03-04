@@ -4,6 +4,25 @@
     </div>
 </div>
 
+
+<div class="row" >
+    <div class="col-sm-6 col-sm-offset-3" >
+        <%= content_tag :p,
+                        class: "alert alert-info",
+                        id: "suggestion",
+                        role: "alert",
+                        data: [suggestion: @suggestion] do %>
+            Did you mean <strong>
+            <a href="/"
+               class="alert-link"
+               onclick="$('#hidden-form').submit(); return false;">
+                <%= @suggestion %>
+            </a>
+            </strong>?
+        <% end %>
+    </div>
+</div>
+
 <div class="row" >
     <div class="col-sm-6 col-sm-offset-3" >
         <%= form_for @conn, page_path(@conn, :check), [as: :check, id: "check-form"],  fn f -> %>
@@ -22,3 +41,9 @@
         <%= show_result @result %>
     </div>
 </div>
+
+
+<!-- Hidden form -->
+<%= form_for @conn, page_path(@conn, :check), [as: :check, id: "hidden-form"], fn f -> %>
+    <%= hidden_input f, :food, value: @suggestion %>
+<% end %>

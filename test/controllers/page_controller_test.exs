@@ -11,15 +11,6 @@ defmodule NelsonApproved.PageControllerTest do
     assert html_response(conn, 200)
   end
 
-  test "food unknown", %{conn: conn} do
-    set_mock_response :unknown
-
-    conn = post conn, page_path(conn, :check), check: %{"food" => "Carrot"}
-
-    assert html_response(conn, 200) =~ "not sure"
-    assert conn.assigns.result == :unknown
-  end
-
   test "food approved", %{conn: conn} do
     set_mock_response :approved
 
@@ -36,6 +27,28 @@ defmodule NelsonApproved.PageControllerTest do
 
     assert html_response(conn, 200) =~ "Stay off"
     assert conn.assigns.result == :not_approved
+  end
+
+  test "food unknown, send suggestion", %{conn: conn} do
+    set_mock_response :unknown
+    set_mock_response "Carrot"
+
+    conn = post conn, page_path(conn, :check), check: %{"food" => "Carrut"}
+
+    assert html_response(conn, 200) =~ "not sure"
+    assert conn.assigns.result == :unknown
+    assert conn.assigns.suggestion == "Carrot"
+  end
+
+  test "food unknown, but valid (ignore case). Don't send suggestion", %{conn: conn} do
+    set_mock_response :unknown
+    set_mock_response "carrot"
+
+    conn = post conn, page_path(conn, :check), check: %{"food" => " CarroT   "}
+
+    assert html_response(conn, 200) =~ "not sure"
+    assert conn.assigns.result == :unknown
+    assert conn.assigns.suggestion == ""
   end
 
   # When called, the mock NelsonApproved service sinply sends back the first

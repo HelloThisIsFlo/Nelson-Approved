@@ -25,3 +25,14 @@ import "phoenix_html"
 // div.innerHTML = div.innerHTML + "<p>Test Hello :D :D</p>"
 // console.log(div)
 
+
+///////////////////////////////////////////////////////////////////////////////
+//              Hide sugestion if empty (but keep in the layout)             //
+///////////////////////////////////////////////////////////////////////////////
+const suggestionDiv = $('#suggestion');
+const suggestion = suggestionDiv.data().suggestion;
+if (suggestion) {
+    // do nothing
+} else {
+    suggestionDiv.css('visibility', 'hidden');
+}
