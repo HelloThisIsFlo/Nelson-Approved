@@ -1,4 +1,5 @@
 defmodule NelsonApproved do
+  alias NelsonApproved.ArtificialIntelligence
   alias NelsonApproved.Food
   alias NelsonApproved.Repo
   import Ecto.Query
@@ -12,11 +13,25 @@ defmodule NelsonApproved do
 
   @spec approved?(String.t) :: :approved | :not_approved | :unknown
   def approved?(food) when is_bitstring(food) do
-    food
-    |> String.downcase
-    |> String.trim
-    |> find_one_by_name
-    |> is_approved?
+    database_resp =
+      food
+      |> String.downcase
+      |> String.trim
+      |> find_one_by_name
+      |> is_approved?
+
+    if database_resp == :unknown do
+      case ArtificialIntelligence.is_processed_food?(food) do
+        true ->
+          :not_approved
+        false ->
+          :approved
+        _ ->
+          :unknown
+      end
+    else
+      database_resp
+    end
   end
 
   @spec find_one_by_name(String.t) :: %Food{} | :not_found
