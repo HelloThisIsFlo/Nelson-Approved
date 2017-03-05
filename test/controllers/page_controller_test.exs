@@ -51,6 +51,26 @@ defmodule NelsonApproved.PageControllerTest do
     assert conn.assigns.suggestion == ""
   end
 
+  describe "Using AI: " do
+    test "approved", %{conn: conn} do
+      set_mock_response %NelsonApproved.Response{approved?: :approved, using_ai?: true}
+      conn = post conn, page_path(conn, :check), check: %{"food" => " CarroT   "}
+      assert_using_ai(conn)
+    end
+
+    test "not approved", %{conn: conn} do
+      set_mock_response %NelsonApproved.Response{approved?: :not_approved, using_ai?: true}
+      conn = post conn, page_path(conn, :check), check: %{"food" => " CarroT   "}
+      assert_using_ai(conn)
+    end
+
+  end
+
+  defp assert_using_ai(conn) do
+    assert conn.assigns.using_ai?
+    assert html_response(conn, 200) =~ "AI"
+  end
+
   # When called, the mock NelsonApproved service sinply sends back the first
   # message found in the inbox.
   # So before test, sending response to self() for the mock to find it.

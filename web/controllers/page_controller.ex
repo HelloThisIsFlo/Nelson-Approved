@@ -8,6 +8,7 @@ defmodule NelsonApproved.PageController do
     conn
     |> assign(:result, :no_result)
     |> assign(:suggestion, "")
+    |> assign(:using_ai?, false)
   end
 
   def index(conn, _params) do
@@ -20,12 +21,13 @@ defmodule NelsonApproved.PageController do
 
   def check(conn, %{"check" => %{"food" => food}}) do
     case @nelson_approved.approved?(food) do
-      %NelsonApproved.Response{approved?: :unknown} ->
+      %NelsonApproved.Response{approved?: :unknown, using_ai?: ai?} ->
         render conn, "index.html",
           result: :unknown,
-          suggestion: get_suggestion(food)
-      %NelsonApproved.Response{approved?: result} ->
-        render conn, "index.html", result: result
+          suggestion: get_suggestion(food),
+          using_ai?: ai?
+      %NelsonApproved.Response{approved?: result, using_ai?: ai?} ->
+        render conn, "index.html", result: result, using_ai?: ai?
     end
   end
 

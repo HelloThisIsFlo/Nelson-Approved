@@ -38,7 +38,7 @@
 
 <div class="row" >
     <div class="col-sm-8 col-sm-offset-2" >
-        <%= show_result @result %>
+        <%= show_result @conn %>
     </div>
 </div>
 
