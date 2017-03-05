@@ -22,6 +22,12 @@ defmodule NelsonApproved.ArtificialIntelligenceTest do
       set_mock_ai_response 0.7
       assert :unknown == ArtificialIntelligence.is_processed_food? "whatever"
     end
+
+    test "error sent by network module" do
+      set_call_counter 10
+      set_mock_ai_response :error
+      assert :unknown == ArtificialIntelligence.is_processed_food? "whatever"
+    end
   end
 
   def set_mock_ai_response(val) do

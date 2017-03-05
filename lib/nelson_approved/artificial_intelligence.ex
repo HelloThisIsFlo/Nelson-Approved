@@ -2,6 +2,15 @@ defmodule NelsonApproved.ArtificialIntelligence do
   alias NelsonApproved.Repo
   alias NelsonApproved.KeyValue
 
+  @moduledoc """
+  This module uses AI to determine if a given food is processed or not.
+
+  In reality, it simply calculates the semantic(meaning) relatedness between the food name
+  and the statement "processed food"
+
+  It is very flaky. But fun to implement.
+  """
+
   @call_counter_key "CALL_COUNTER"
   @call_counter_limit 3000
 
@@ -20,12 +29,13 @@ defmodule NelsonApproved.ArtificialIntelligence do
   end
 
   defp ask_ai(food) do
-    do_ask_ai(@network_ai.semantic_relatedness(food, "processed food"))
+    @network_ai.semantic_relatedness(food, "processed food")
+    |> are_related_enough?()
   end
-  defp do_ask_ai(relatedness) when relatedness > @related_thres, do: true
-  defp do_ask_ai(relatedness) when relatedness < @not_related_thres, do: false
-  defp do_ask_ai(_), do: :unknown
-
+  defp are_related_enough?(:error), do: :unknown
+  defp are_related_enough?(relatedness) when relatedness > @related_thres, do: true
+  defp are_related_enough?(relatedness) when relatedness < @not_related_thres, do: false
+  defp are_related_enough?(_), do: :unknown
 
   defp check_and_increment_counter do
     counter = Repo.get_by(KeyValue, %{key: @call_counter_key})
@@ -45,6 +55,5 @@ defmodule NelsonApproved.ArtificialIntelligence do
   end
   defp value(%KeyValue{value: val}), do: val
   defp value(_), do: 0
-
 
 end
