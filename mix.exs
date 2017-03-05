@@ -40,8 +40,9 @@ defmodule NelsonApproved.Mixfile do
      {:cowboy, "~> 1.0"},
      {:comeonin, "~> 3.0"},
      {:poison, "~> 2.2.0"},
-     {:httpotion, "~> 3.0.2"}
-    ]
+     {:httpotion, "~> 3.0.2"},
+     {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
+     {:credo, "~> 0.5", only: [:dev, :test]}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
