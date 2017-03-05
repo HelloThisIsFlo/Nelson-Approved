@@ -4,8 +4,10 @@ defmodule NelsonApproved.ArtificialIntelligence do
 
   @call_counter_key "CALL_COUNTER"
   @call_counter_limit 3000
-  @semantic_approved_thres 0.8
-  @semantic_not_approved_thres 0.5
+
+  @related_thres Application.fetch_env!(:nelson_approved, :related_thres)
+  @not_related_thres Application.fetch_env!(:nelson_approved, :not_related_thres)
+
   @network_ai Application.fetch_env!(:nelson_approved, :network_ai_module)
 
   @spec is_processed_food?(String.t) :: boolean | :unknown | :too_many_calls
@@ -20,8 +22,8 @@ defmodule NelsonApproved.ArtificialIntelligence do
   defp ask_ai(food) do
     do_ask_ai(@network_ai.semantic_relatedness(food, "processed food"))
   end
-  defp do_ask_ai(relatedness) when relatedness > @semantic_approved_thres, do: true
-  defp do_ask_ai(relatedness) when relatedness < @semantic_not_approved_thres, do: false
+  defp do_ask_ai(relatedness) when relatedness > @related_thres, do: true
+  defp do_ask_ai(relatedness) when relatedness < @not_related_thres, do: false
   defp do_ask_ai(_), do: :unknown
 
 

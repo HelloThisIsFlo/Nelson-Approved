@@ -25,6 +25,10 @@ config :nelson_approved,
   network_ai_module: NelsonApproved.AiNetworkMock
 
 
+config :nelson_approved,
+  related_thres: 0.8,
+  not_related_thres: 0.3
+
 
 # Reduce hash strength for faster tests (only in tests)
 config :comeonin,

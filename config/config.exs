@@ -10,6 +10,12 @@ config :nelson_approved,
   ecto_repos: [NelsonApproved.Repo],
   nelson_approved: NelsonApproved
 
+
+config :nelson_approved,
+  related_thres: 0.02,
+  not_related_thres: 0.01
+
+
 # Configure authentication
 config :nelson_approved,
   # Password hash for password "abcd"
