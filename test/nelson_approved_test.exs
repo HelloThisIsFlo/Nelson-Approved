@@ -12,22 +12,19 @@ defmodule NelsonApprovedTest do
     Enum.each(not_approved, &Repo.insert!(%Food{name: &1, approved: false}))
   end
 
-  @tag approved:     ["carrot"]
-  @tag not_approved: ["pizza"]
-  test "in repo => convert value" do
-    assert :approved     == NelsonApproved.approved? "carrot"
-    assert :not_approved == NelsonApproved.approved? "pizza"
-  end
+  describe "In Database: =>" do
+    @tag approved:     ["carrot"]
+    @tag not_approved: ["pizza"]
+    test "convert value" do
+      assert :approved     == NelsonApproved.approved? "carrot"
+      assert :not_approved == NelsonApproved.approved? "pizza"
+    end
 
-  test "closest_match" do
-    assert "chili" == NelsonApproved.find_closest_match("chil", ["chili"])
-    assert "chili" == NelsonApproved.find_closest_match("chil", ["chili", "pasta"])
-  end
-
-  @tag approved: ["carrot"]
-  test "ignore case and whitespaces" do
-    assert :approved == NelsonApproved.approved? "cArrOt"
-    assert :approved == NelsonApproved.approved? "   cArrOt   "
+    @tag approved: ["carrot"]
+    test "ignore case and whitespaces" do
+      assert :approved == NelsonApproved.approved? "cArrOt"
+      assert :approved == NelsonApproved.approved? "   cArrOt   "
+    end
   end
 
   describe "Not in Database: Ask AI =>" do
@@ -64,6 +61,11 @@ defmodule NelsonApprovedTest do
       |> KeyValue.changeset(%{key: "CALL_COUNTER", value: counter})
       |> Repo.insert!
     end
+  end
+
+  test "closest_match" do
+    assert "chili" == NelsonApproved.find_closest_match("chil", ["chili"])
+    assert "chili" == NelsonApproved.find_closest_match("chil", ["chili", "pasta"])
   end
 
 
