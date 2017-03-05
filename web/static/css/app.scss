@@ -4,6 +4,7 @@
 |    Variables      |
 \*-----------------*/
 $primary-color: #9AB556;
+$primary-color-dark: #667739;
 
 
 /*-----------------*\
@@ -21,6 +22,13 @@ body, a:not(.alert-link) {
     color: white;
     font-family: 'Rancho';
     /* font-size: 30px; */ // TODO: Set base font size and asjust rest
+}
+body {
+    margin-bottom: 120px;
+}
+html {
+    position: relative;
+    min-height: 100%;
 }
 
 .alert:empty { display: none; }
@@ -53,6 +61,49 @@ body, a:not(.alert-link) {
     }
 }
 
+// Footer /////////////////////////////////////
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    font-size: 1.5em;
+    background-color: $primary-color-dark;
+
+    display: flex;
+    align-items: center;
+
+    .col-sm-4 {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+    .btn-social-icon {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    @include from-tablet {
+        height: 80px;
+
+        #made-by {
+            text-align: left;
+        }
+        .row {
+            display: flex;
+            align-items: center;
+        }
+    }
+}
+#blog-link {
+    background-color: $primary-color-dark;
+    border: solid white 1px;
+    font-size: 1em;
+
+    &:hover {
+        background-color: white;
+        color: $primary-color;
+    }
+}
+
 // Main page //////////////////////////////////
 .main-prompt {
     font-size: 4.5em;
@@ -61,7 +112,6 @@ body, a:not(.alert-link) {
         font-size: 10em;
     }
 }
-
 #suggestion {
     display: inline;
     font-size: 1.3em;
@@ -70,7 +120,6 @@ body, a:not(.alert-link) {
     padding-top: 0px;
     padding-bottom: 0px;
 }
-
 #check-form {
     /* @include from-tablet { */
     /*     padding-top: 25px; */
@@ -88,7 +137,6 @@ body, a:not(.alert-link) {
         border-radius: 8px;
     }
 }
-
 .input-xl {
     font-size: 3.5em;
     height: 60px;
@@ -100,7 +148,5 @@ body, a:not(.alert-link) {
 #why {
     h1 {font-size: 4em;}
     p {font-size: 2em;}
+    margin-bottom: 80px;
 }
-
-
-// Food section  /////////////////////////////

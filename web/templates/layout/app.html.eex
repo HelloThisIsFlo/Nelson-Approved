@@ -35,20 +35,34 @@
         <%= render @view_module, @view_template, assigns %>
       </main>
 
-      <div class="row" >
-          <div class="col-xs-12" >
-              <ul>
-                <li> <%= link "Foods (temp)", to: food_path(@conn, :index) %> </li>
-                <%= if logged_in?(@conn) do %>
-                    <li> <%= link "Logout (temp)", method: "delete", to: session_path(@conn, :delete, :not_used)%> </li>
-                <% else %>
-                    <li> <%= link "Login (temp)", to: session_path(@conn, :new) %> </li>
-                <% end %>
-              </ul>
+    </div> <!-- /container -->
+    <footer class="footer">
+      <div class="container">
+          <div class="row" >
+              <div class="col-sm-4 text-center" id="made-by">
+                Made with &hearts; by Florian Kempenich
+              </div>
+              <div class="col-sm-4 blog-col text-center">
+                  Check out my blog:
+                  <a class="btn"
+                     id="blog-link"
+                     href="http://www.professionalbeginner.com">
+                      The Professional Beginner
+                  </a>
+              </div>
+              <div class="col-sm-2 col-sm-offset-2 text-center">
+                      <a class="btn btn-social-icon btn-linkedin"
+                         href="https://www.linkedin.com/in/floriankempenich">
+                        <span class="fa fa-linkedin"></span>
+                    </a>
+                    <a class="btn btn-social-icon btn-github"
+                       href="https://github.com/shockn745">
+                        <span class="fa fa-github"></span>
+                    </a>
+              </div>
           </div>
       </div>
-
-    </div> <!-- /container -->
+    </footer>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
