@@ -41,3 +41,5 @@ config :nelson_approved, NelsonApproved.Repo,
   database: "nelson_approved_dev",
   hostname: "localhost",
   pool_size: 10
+
+import_config "secret.exs"
