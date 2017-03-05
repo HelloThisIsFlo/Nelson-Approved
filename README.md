@@ -2,11 +2,23 @@
 
 # NelsonApproved
 
-Nelson approved is a joke / practice-project to experiement with the development of web application in Elixir.
+Nelson approved is a joke / practice-project to experiment with the development of web application in Elixir.
+
+###### Heroku
 
 - Visit the WebApp: http://nelsonapproved.tk/
 
+###### After running installing the project
+
+- Visit the WebApp: [http://localhost:4000/](http://localhost:4000/)
+- Access the food management interface: [http://localhost:4000/manage/foods](http://localhost:4000/manage/foods)
+  - Default password is `abcd` for `dev` & `test` environment
+
+
 ## Initial configuration
+
+This app uses `Postgres` and assumes the default configuration. 
+Update the configuration files if your setup is different.
 
 ### Configuration files
 
@@ -21,7 +33,7 @@ config :nelson_approved,
   mashape_key: "YOUR_API_KEY"
 ```
 
-Alternatively you can choose to not use the semantic analysis service altogether.
+Alternatively, you can choose to not use the semantic analysis service altogether.
 In that case, you can simply use the mock implementation of the network layer that is
 provided at `NelsonApproved.AiNetworkMock`
 
@@ -35,7 +47,7 @@ config :nelson_approved,
   network_ai_module: NelsonApproved.AiNetworkMock,
 ```
 
-### Before first start
+### Before the first start
 
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
