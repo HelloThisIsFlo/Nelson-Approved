@@ -12,6 +12,10 @@ defmodule NelsonApprovedTest do
     Enum.each(not_approved, &Repo.insert!(%Food{name: &1, approved: false}))
   end
 
+  test "Not a food name" do
+    assert_unknown "sadf"
+  end
+
   describe "In Database: =>" do
     @tag approved:     ["carrot"]
     @tag not_approved: ["pizza"]
@@ -74,7 +78,7 @@ defmodule NelsonApprovedTest do
   defp assert_not_approved(food, using_ai? \\ false) do
     assert %NelsonApproved.Response{approved?: :not_approved, using_ai?: ^using_ai?} = NelsonApproved.approved? food
   end
-  defp assert_unknown(food, using_ai?) do
+  defp assert_unknown(food, using_ai? \\ false) do
     assert %NelsonApproved.Response{approved?: :unknown, using_ai?: ^using_ai?} = NelsonApproved.approved? food
   end
 
