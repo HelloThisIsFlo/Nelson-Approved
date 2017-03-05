@@ -16,14 +16,14 @@ defmodule NelsonApprovedTest do
     @tag approved:     ["carrot"]
     @tag not_approved: ["pizza"]
     test "convert value" do
-      assert :approved     == NelsonApproved.approved? "carrot"
-      assert :not_approved == NelsonApproved.approved? "pizza"
+      assert_approved "carrot"
+      assert_not_approved "pizza"
     end
 
     @tag approved: ["carrot"]
     test "ignore case and whitespaces" do
-      assert :approved == NelsonApproved.approved? "cArrOt"
-      assert :approved == NelsonApproved.approved? "   cArrOt   "
+      assert_approved "cArrOt"
+      assert_approved "   cArrOt   "
     end
   end
 
@@ -31,25 +31,25 @@ defmodule NelsonApprovedTest do
     test "approved" do
       set_call_counter 10
       set_mock_probability_processed_food 0.1
-      assert :approved == NelsonApproved.approved? "carrot"
+      assert_approved "carrot"
     end
 
     test "not approved" do
       set_call_counter 10
       set_mock_probability_processed_food 0.9
-      assert :not_approved == NelsonApproved.approved? "carrot"
+      assert_not_approved "carrot"
     end
 
     test "still unknown" do
       set_call_counter 10
       set_mock_probability_processed_food 0.7
-      assert :unknown == NelsonApproved.approved? "carrot"
+      assert_unknown "carrot"
     end
 
     test "too many calls" do
       set_call_counter 6000
       set_mock_probability_processed_food 0.7
-      assert :unknown == NelsonApproved.approved? "carrot"
+      assert_unknown "carrot"
     end
 
     def set_mock_probability_processed_food(val) do
@@ -66,6 +66,16 @@ defmodule NelsonApprovedTest do
   test "closest_match" do
     assert "chili" == NelsonApproved.find_closest_match("chil", ["chili"])
     assert "chili" == NelsonApproved.find_closest_match("chil", ["chili", "pasta"])
+  end
+
+  defp assert_approved(food) do
+    assert :approved == NelsonApproved.approved? food
+  end
+  defp assert_not_approved(food) do
+    assert :not_approved == NelsonApproved.approved? food
+  end
+  defp assert_unknown(food) do
+    assert :unknown == NelsonApproved.approved? food
   end
 
 
