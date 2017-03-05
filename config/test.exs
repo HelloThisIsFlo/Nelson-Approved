@@ -21,8 +21,8 @@ config :nelson_approved, NelsonApproved.Repo,
 # Config for tests
 config :nelson_approved,
   nelson_approved: NelsonApproved.NelsonApprovedMock,
-  food_names_file: "./test/food.txt",
-  network_ai_module: NelsonApproved.AiNetworkMock
+  network_ai_module: NelsonApproved.AiNetworkMock,
+  food_names_file: "./test/food.txt"
 
 
 config :nelson_approved,

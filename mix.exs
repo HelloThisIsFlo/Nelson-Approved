@@ -23,8 +23,11 @@ defmodule NelsonApproved.Mixfile do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "web", "test/support", "test/mocks"]
+  defp test_path, do: ["lib", "web", "test/support", "test/mocks"]
+  defp elixirc_paths(:test), do: test_path()
+  defp elixirc_paths(:integration_test), do: test_path()
   defp elixirc_paths(_),     do: ["lib", "web"]
+
 
   # Specifies your project dependencies.
   #
