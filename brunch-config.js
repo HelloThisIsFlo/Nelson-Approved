@@ -55,6 +55,10 @@ exports.config = {
       // Do not use ES6 compiler in vendor code
       ignore: [/web\/static\/vendor/]
     },
+    copycat: { // copies to priv/static/fonts/
+        "fonts": ["node_modules/bootstrap-sass/assets/fonts/bootstrap"],
+        "fonts": ["node_modules/font-awesome/fonts"]
+    },
     sass: {
         options: {
             // tell sass-brunch where to look for files to @import
