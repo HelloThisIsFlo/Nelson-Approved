@@ -3,6 +3,7 @@ defmodule NelsonApproved do
   alias NelsonApproved.Food
   alias NelsonApproved.Repo
   import Ecto.Query
+  require Logger
 
   defmodule Behaviour do
     @callback approved?(String.t) :: :approved | :not_approved | :unknown
@@ -21,15 +22,20 @@ defmodule NelsonApproved do
       |> is_approved?
 
     if database_resp == :unknown do
+      Logger.debug("Not Found in Database! | Food: " <> food)
       case ArtificialIntelligence.is_processed_food?(food) do
         true ->
+          Logger.debug("AI Disapproved! | Food: " <> food)
           :not_approved
         false ->
+          Logger.debug("AI Approved! | Food: " <> food)
           :approved
         _ ->
+          Logger.debug("AI Has no idea! | Food: " <> food)
           :unknown
       end
     else
+      Logger.debug("Found in Database! | Food: " <> food)
       database_resp
     end
   end
