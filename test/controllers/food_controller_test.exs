@@ -29,7 +29,7 @@ defmodule NelsonApproved.FoodControllerTest do
     ], fn(conn) ->
       flash = get_flash conn, :error
       refute String.length(flash) == 0
-      assert redirected_to(conn) =~ page_path(conn, :index)
+      assert redirected_to(conn) =~ session_path(conn, :new)
     end)
   end
 

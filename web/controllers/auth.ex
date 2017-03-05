@@ -14,7 +14,7 @@ defmodule NelsonApproved.Auth do
     conn
     |> halt()
     |> put_flash(:error, "You must be logged-in to access this page")
-    |> redirect(to: Helpers.page_path(conn, :index))
+    |> redirect(to: Helpers.session_path(conn, :new))
   end
 
   def login(conn) do
