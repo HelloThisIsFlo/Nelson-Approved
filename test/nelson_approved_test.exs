@@ -31,25 +31,25 @@ defmodule NelsonApprovedTest do
     test "approved" do
       set_call_counter 10
       set_mock_probability_processed_food 0.1
-      assert_approved "carrot"
+      assert_approved "carrot", true
     end
 
     test "not approved" do
       set_call_counter 10
       set_mock_probability_processed_food 0.9
-      assert_not_approved "carrot"
+      assert_not_approved "carrot", true
     end
 
     test "still unknown" do
       set_call_counter 10
       set_mock_probability_processed_food 0.7
-      assert_unknown "carrot"
+      assert_unknown "carrot", true
     end
 
     test "too many calls" do
       set_call_counter 6000
       set_mock_probability_processed_food 0.7
-      assert_unknown "carrot"
+      assert_unknown "carrot", true
     end
 
     def set_mock_probability_processed_food(val) do
@@ -68,14 +68,14 @@ defmodule NelsonApprovedTest do
     assert "chili" == NelsonApproved.find_closest_match("chil", ["chili", "pasta"])
   end
 
-  defp assert_approved(food) do
-    assert :approved == NelsonApproved.approved? food
+  defp assert_approved(food, using_ai? \\ false) do
+    assert %NelsonApproved.Response{approved?: :approved, using_ai?: ^using_ai?} = NelsonApproved.approved? food
   end
-  defp assert_not_approved(food) do
-    assert :not_approved == NelsonApproved.approved? food
+  defp assert_not_approved(food, using_ai? \\ false) do
+    assert %NelsonApproved.Response{approved?: :not_approved, using_ai?: ^using_ai?} = NelsonApproved.approved? food
   end
-  defp assert_unknown(food) do
-    assert :unknown == NelsonApproved.approved? food
+  defp assert_unknown(food, using_ai?) do
+    assert %NelsonApproved.Response{approved?: :unknown, using_ai?: ^using_ai?} = NelsonApproved.approved? food
   end
 
 

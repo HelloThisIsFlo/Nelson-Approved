@@ -20,11 +20,11 @@ defmodule NelsonApproved.PageController do
 
   def check(conn, %{"check" => %{"food" => food}}) do
     case @nelson_approved.approved?(food) do
-      :unknown ->
+      %NelsonApproved.Response{approved?: :unknown} ->
         render conn, "index.html",
           result: :unknown,
           suggestion: get_suggestion(food)
-      result ->
+      %NelsonApproved.Response{approved?: result} ->
         render conn, "index.html", result: result
     end
   end

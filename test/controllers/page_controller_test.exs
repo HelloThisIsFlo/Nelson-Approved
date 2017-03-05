@@ -12,7 +12,7 @@ defmodule NelsonApproved.PageControllerTest do
   end
 
   test "food approved", %{conn: conn} do
-    set_mock_response :approved
+    set_mock_response %NelsonApproved.Response{approved?: :approved, using_ai?: false}
 
     conn = post conn, page_path(conn, :check), check: %{"food" => "Carrot"}
 
@@ -21,7 +21,7 @@ defmodule NelsonApproved.PageControllerTest do
   end
 
   test "food not approved", %{conn: conn} do
-    set_mock_response :not_approved
+    set_mock_response %NelsonApproved.Response{approved?: :not_approved, using_ai?: false}
 
     conn = post conn, page_path(conn, :check), check: %{"food" => "Carrot"}
 
@@ -30,7 +30,7 @@ defmodule NelsonApproved.PageControllerTest do
   end
 
   test "food unknown, send suggestion", %{conn: conn} do
-    set_mock_response :unknown
+    set_mock_response %NelsonApproved.Response{approved?: :unknown, using_ai?: false}
     set_mock_response "Carrot"
 
     conn = post conn, page_path(conn, :check), check: %{"food" => "Carrut"}
@@ -41,7 +41,7 @@ defmodule NelsonApproved.PageControllerTest do
   end
 
   test "food unknown, but valid (ignore case). Don't send suggestion", %{conn: conn} do
-    set_mock_response :unknown
+    set_mock_response %NelsonApproved.Response{approved?: :unknown, using_ai?: false}
     set_mock_response "carrot"
 
     conn = post conn, page_path(conn, :check), check: %{"food" => " CarroT   "}

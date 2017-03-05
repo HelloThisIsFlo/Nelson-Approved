@@ -6,13 +6,22 @@ defmodule NelsonApproved do
   require Logger
 
   defmodule Behaviour do
-    @callback approved?(String.t) :: :approved | :not_approved | :unknown
+    @callback approved?(String.t) :: Response.t
     @callback find_closest_match(String.t, [String.t]) :: String.t
+  end
+
+  defmodule Response do
+    @type t :: %__MODULE__{
+      approved?: :approved | :not_approved | :unknown,
+      using_ai?: boolean
+    }
+    defstruct [:approved?,
+               :using_ai?]
   end
 
   @behaviour NelsonApproved.Behaviour
 
-  @spec approved?(String.t) :: :approved | :not_approved | :unknown
+  @spec approved?(String.t) :: Response.t
   def approved?(food) when is_bitstring(food) do
     database_resp =
       food
@@ -26,17 +35,17 @@ defmodule NelsonApproved do
       case ArtificialIntelligence.is_processed_food?(food) do
         true ->
           Logger.debug("AI Disapproved! | Food: " <> food)
-          :not_approved
+          %Response{approved?: :not_approved, using_ai?: true}
         false ->
           Logger.debug("AI Approved! | Food: " <> food)
-          :approved
+          %Response{approved?: :approved, using_ai?: true}
         _ ->
           Logger.debug("AI Has no idea! | Food: " <> food)
-          :unknown
+          %Response{approved?: :unknown, using_ai?: true}
       end
     else
       Logger.debug("Found in Database! | Food: " <> food)
-      database_resp
+      %Response{approved?: database_resp, using_ai?: false}
     end
   end
 
