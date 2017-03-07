@@ -25,13 +25,14 @@ defmodule NelsonApproved.Router do
     post "/",    PageController, :check
 
     resources "/sessions", SessionController, only: [:new, :create, :delete]
-    resources "/users", UserController, only: [:index, :new, :create, :delete]
+    resources "/users", UserController, only: [:new, :create]
   end
 
   scope "/manage", NelsonApproved do
     pipe_through [:browser, :authenticate_admin]
 
     resources "/foods", FoodController, only: [:index, :new, :create, :delete]
+    resources "/users", UserController, only: [:index, :delete]
   end
 
   # Other scopes may use custom stacks.
