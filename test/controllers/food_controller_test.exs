@@ -1,7 +1,6 @@
 defmodule NelsonApproved.FoodControllerTest do
   use NelsonApproved.ConnCase
   alias NelsonApproved.Food
-  alias NelsonApproved.Auth
 
   setup(%{conn: conn} = context) do
     conn =

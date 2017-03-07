@@ -18,8 +18,6 @@ config :nelson_approved,
 
 # Configure authentication
 config :nelson_approved,
-  # Password hash for password "abcd"
-  pass_hash: "$2b$04$BiPDNPnHjP7YP.tboXCbRupm.andQMVrV0ra4DyW1PfK0h2P5mpqW",
   food_names_file: "./lib/food.txt",
   network_ai_module: NelsonApproved.ArtificialIntelligence.Network
 

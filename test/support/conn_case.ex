@@ -37,10 +37,12 @@ defmodule NelsonApproved.ConnCase do
           raise "Not yet implemented"
         end
 
+        user = insert_user(admin: true)
+
         conn
         |> bypass_through(NelsonApproved.Router, [:browser])
         |> get("/")
-        |> NelsonApproved.Auth.login()
+        |> NelsonApproved.Auth.login(user)
         |> send_resp(:ok, "Flush the session")
         |> recycle()
       end

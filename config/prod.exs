@@ -28,7 +28,6 @@ config :nelson_approved, NelsonApproved.Repo,
 
 # Configure authentication
 config :nelson_approved,
-  pass_hash: System.get_env("PASS_HASH"),
   mashape_key: System.get_env("MASHAPE_KEY")
 
 

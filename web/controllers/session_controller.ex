@@ -6,12 +6,11 @@ defmodule NelsonApproved.SessionController do
       render conn, "new.html"
     end
 
-    def create(conn, %{"login" => %{"password" => pass}}) do
+    def create(conn, %{"login" => %{"username" => username, "password" => pass}}) do
       conn
-      |> Auth.login_with_password(pass)
+      |> Auth.login_with_username_and_password(username, pass)
       |> do_login
     end
-
     defp do_login({:ok, conn}) do
       conn
       |> put_flash(:info, "Logged in!")
@@ -19,7 +18,7 @@ defmodule NelsonApproved.SessionController do
     end
     defp do_login({:error, conn}) do
       conn
-      |> put_flash(:error, "Wrong password!")
+      |> put_flash(:error, "Wrong username/password combination!")
       |> render("new.html")
     end
 

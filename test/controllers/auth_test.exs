@@ -1,6 +1,7 @@
 defmodule NelsonApproved.AuthTest do
   use NelsonApproved.ConnCase
   alias NelsonApproved.Auth
+  alias NelsonApproved.User
 
   setup(%{conn: conn}) do
     %{conn: prepare(conn)}
@@ -14,10 +15,11 @@ defmodule NelsonApproved.AuthTest do
     |> get("/")
   end
 
-  test "login sets flag in session", %{conn: conn} do
+  test "login puts user_id in session and user in assign", %{conn: conn} do
+    user = %User{username: "Patrick", id: 123}
     conn =
       conn
-      |> Auth.login()
+      |> Auth.login(user)
       |> send_resp(:ok, "")
 
     # Next request sent by the browser
@@ -27,14 +29,18 @@ defmodule NelsonApproved.AuthTest do
       |> prepare()
       |> send_resp(:ok, "")
 
-    assert get_session(conn, :logged_in?) == true
-    assert get_session(new_conn, :logged_in?) == true
+    # user_id in session
+    assert 123 = get_session(conn, :user_id)
+    assert 123 = get_session(new_conn, :user_id)
+
+    # user in assign
+    assert ^user = conn.assigns.current_user
   end
 
   test "logout drops the session, and halts connection", %{conn: conn} do
     conn =
       conn
-      |> put_session(:logged_in?, true)
+      |> put_session(:user_id, %User{id: 123})
       |> Auth.logout()
       |> send_resp(:ok, "")
 
@@ -43,41 +49,88 @@ defmodule NelsonApproved.AuthTest do
       |> recycle()
       |> prepare()
 
-    assert get_session(new_conn, :logged_in?) == nil
+    assert get_session(new_conn, :user_id) == nil
   end
 
-  describe "login_with_password/2" do
+  describe "login_with_username_and_password/2" do
+    test "user not found, doesn't log-in", %{conn: conn} do
+      {:error, conn} = Auth.login_with_username_and_password(conn, "Frank", "xxxxxxx")
+      refute get_session(conn, :user_id)
+    end
+
     test "wrong password, doesn't log-in", %{conn: conn} do
-      {:error, conn} = Auth.login_with_password(conn, "xxxxxxx")
-      refute get_session(conn, :logged_in?)
+      insert_user(username: "Frank", password: "secret")
+      {:error, conn} = Auth.login_with_username_and_password(conn, "Frank", "xxxxxxx")
+      refute get_session(conn, :user_id)
     end
 
     test "correct password, log-in", %{conn: conn} do
-      # Password for test and dev is "abcd", see `config.exs`
-      {:ok, conn} = Auth.login_with_password(conn, "abcd")
-      assert get_session(conn, :logged_in?)
+      %User{id: id} = insert_user(username: "Frank", password: "secret")
+      {:ok, conn} = Auth.login_with_username_and_password(conn, "Frank", "secret")
+      assert ^id = get_session(conn, :user_id)
     end
   end
 
-  describe "authenticate/2" do
-    test "redirects if not logged-in", %{conn: conn} do
+  describe "authenticate_admin/2" do
+    test "not logged in, redirect", %{conn: conn} do
       conn =
         conn
-        |> Auth.authenticate([])
+        |> Auth.authenticate_admin([])
 
       assert conn.halted
       assert redirected_to(conn) =~ page_path(conn, :index)
       assert get_flash(conn, :error) =~ "must be logged-in"
     end
 
-    test "does not redirect if user logged-in", %{conn: conn} do
+    test "logged-in as non-admin, redirect", %{conn: conn} do
       conn =
         conn
-        |> Auth.login()
-        |> Auth.authenticate([])
+        |> Auth.login(%User{id: 1, admin: false})
+        |> Auth.authenticate_admin([])
+
+      assert conn.halted
+      assert redirected_to(conn) =~ page_path(conn, :index)
+      assert get_flash(conn, :error) =~ "must be an admin"
+    end
+
+    test "logged-in as admin, do not redirect", %{conn: conn} do
+      conn =
+        conn
+        |> Auth.login(%User{id: 1, admin: true})
+        |> Auth.authenticate_admin([])
 
       refute conn.halted()
       refute conn.state == :sent
+    end
+  end
+
+  describe "load_current_user/1" do
+    test "user not logged-in", %{conn: conn} do
+      conn = Auth.load_current_user(conn, [])
+      refute conn.assigns[:current_user]
+    end
+
+    test "user logged-in", %{conn: conn} do
+      # Given: User is logged-in
+      %User{id: id} = insert_user()
+      conn = put_session(conn, :user_id, id)
+
+      # When: Loading current user
+      conn = Auth.load_current_user(conn, [])
+
+      # Then: Current user is loaded
+      assert ^id = conn.assigns.current_user.id
+    end
+
+    test "user doesn't exist", %{conn: conn} do
+      # Given: Wrong ID is logged in
+      conn = put_session(conn, :user_id, 9999)
+
+      # When: Loading current user
+      conn = Auth.load_current_user(conn, [])
+
+      # Then: Current user is loaded
+      refute conn.assigns[:current_user]
     end
   end
 

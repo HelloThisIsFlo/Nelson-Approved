@@ -1,5 +1,6 @@
 defmodule NelsonApproved.SessionControllerTest do
   use NelsonApproved.ConnCase
+  alias NelsonApproved.User
 
   setup(%{conn: conn}) do
     conn =
@@ -17,29 +18,33 @@ defmodule NelsonApproved.SessionControllerTest do
 
   describe "login" do
     test "correct password, redirects to food page", %{conn: conn} do
-      # Password for test and dev is "abcd", see `config.exs`
-      conn = post_login_form conn, "abcd"
+      # Given: A user exist
+      insert_user(username: "Frank", password: "secret_password")
+
+      # When: logging with the correct password
+      conn = post_login_form conn, "Frank", "secret_password"
 
       assert get_flash(conn, :info) =~ "Logged in!"
-      assert get_session(conn, :logged_in?)
+      assert %User{username: "Frank"} = conn.assigns.current_user
       assert redirected_to(conn) =~ food_path(conn, :index)
 
       assert still_logged_in_after_new_connection(conn)
     end
 
     test "wrong password", %{conn: conn} do
-      conn = post_login_form conn, "xxxx"
-      assert get_flash(conn, :error) =~ "Wrong password!"
+      # Given: A user exist
+      insert_user(username: "Frank", password: "abcde")
+
+      # When: logging with the wrong password
+      conn = post_login_form conn, "Frank", "xxxx"
+
+      # Then: still on login page
+      assert get_flash(conn, :error) =~ "Wrong username/password combination!"
       assert_on_login_page conn
     end
 
-    test "empty password", %{conn: conn} do
-      conn = post_login_form conn, ""
-      assert_on_login_page conn
-    end
-
-    defp post_login_form(conn, password),
-      do: post conn, session_path(conn, :create), login: %{password: password}
+    defp post_login_form(conn, username, password),
+      do: post conn, session_path(conn, :create), login: %{username: username, password: password}
   end
 
   describe "logout" do
@@ -47,7 +52,7 @@ defmodule NelsonApproved.SessionControllerTest do
       # Given: User is logged in
       conn =
         conn
-        |> put_session(:logged_in?, true)
+        |> put_session(:user_id, 1234)
         |> send_resp(:ok, "")
 
       # When: Log out
@@ -65,7 +70,7 @@ defmodule NelsonApproved.SessionControllerTest do
       |> recycle()
       |> get("/")
 
-    get_session(conn, :logged_in?) == true
+    get_session(conn, :user_id) != nil
   end
 
 
