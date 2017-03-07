@@ -21,6 +21,7 @@
               <%= if @show_why? do %>
                 <li> <%= link "Why?", to: page_path(@conn, :why) %> </li>
                 <li> <%= link "User", to: user_path(@conn, :index) %> </li>
+                <li> <%= link "Food(temp)", to: food_path(@conn, :index) %> </li>
               <% end %>
           </ul>
         </nav>

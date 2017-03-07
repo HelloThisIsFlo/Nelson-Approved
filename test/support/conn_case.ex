@@ -30,6 +30,21 @@ defmodule NelsonApproved.ConnCase do
 
       # The default endpoint for testing
       @endpoint NelsonApproved.Endpoint
+
+
+      def login(conn, admin?: admin) do
+        if admin == false do
+          raise "Not yet implemented"
+        end
+
+        conn
+        |> bypass_through(NelsonApproved.Router, [:browser])
+        |> get("/")
+        |> NelsonApproved.Auth.login()
+        |> send_resp(:ok, "Flush the session")
+        |> recycle()
+      end
+
     end
   end
 

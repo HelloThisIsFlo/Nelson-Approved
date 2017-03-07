@@ -4,21 +4,17 @@ defmodule NelsonApproved.FoodControllerTest do
   alias NelsonApproved.Auth
 
   setup(%{conn: conn} = context) do
-    case context[:logged_in] do
-      true ->
-        conn =
-          conn
-          |> bypass_through(NelsonApproved.Router, [:browser])
-          |> get("/")
-          |> Auth.login()
-          |> send_resp(:ok, "")
+    conn =
+      conn
+      |> do_login(context[:logged_in], context[:as_admin])
 
-        %{conn: conn}
-
-      _ ->
-        %{conn: conn}
-    end
+    %{conn: conn}
   end
+
+  defp do_login(conn, logged_in?, as_admin?)
+  defp do_login(conn, true, true), do: login(conn, admin?: true)
+  defp do_login(conn, true, _), do: login(conn, admin?: false)
+  defp do_login(conn, _, _), do: conn
 
   test "not logged-in, cannot access food section", %{conn: conn} do
     Enum.each([
@@ -34,6 +30,7 @@ defmodule NelsonApproved.FoodControllerTest do
   end
 
   @tag :logged_in
+  @tag :as_admin
   test "index shows all available foods", %{conn: conn} do
     insert_food("cheese")
     insert_food("carrot")
@@ -46,6 +43,7 @@ defmodule NelsonApproved.FoodControllerTest do
   end
 
   @tag :logged_in
+  @tag :as_admin
   test "delete removes food from repo and redirect", %{conn: conn} do
     # Given: Food is in the Repo
     %Food{id: id} = insert_food("fries")
@@ -61,6 +59,7 @@ defmodule NelsonApproved.FoodControllerTest do
   end
 
   @tag :logged_in
+  @tag :as_admin
   test "render new page", %{conn: conn} do
     conn = get conn, food_path(conn, :new)
     assert html_response(conn, 200) =~ "Create new Food"
@@ -68,6 +67,7 @@ defmodule NelsonApproved.FoodControllerTest do
   end
 
   @tag :logged_in
+  @tag :as_admin
   test "create adds food to repo and redirect", %{conn: conn} do
     # Given: No food in Repo
     assert 0 == Food |> Repo.all |> Enum.count
@@ -81,6 +81,7 @@ defmodule NelsonApproved.FoodControllerTest do
   end
 
   @tag :logged_in
+  @tag :as_admin
   test "create food with empty name, show error message", %{conn: conn} do
     conn = post conn, food_path(conn, :index), food: %{name: "", approved: true}
     assert html_response(conn, 200)
@@ -88,6 +89,7 @@ defmodule NelsonApproved.FoodControllerTest do
   end
 
   @tag :logged_in
+  @tag :as_admin
   test "create food with duplicate name, show error message", %{conn: conn} do
     # Given: 'pizza' already exists
     insert_food("pizza")
