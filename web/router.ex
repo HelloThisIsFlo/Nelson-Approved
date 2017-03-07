@@ -24,6 +24,7 @@ defmodule NelsonApproved.Router do
     post "/",    PageController, :check
 
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    resources "/users", UserController, only: [:index, :new, :create, :delete]
   end
 
   scope "/manage", NelsonApproved do
