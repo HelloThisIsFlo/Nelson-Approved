@@ -6,9 +6,16 @@ defmodule NelsonApproved.Auth do
   import Plug.Conn
 
   def load_current_user(conn, _params) do
-    do_load_current_user(conn, get_session(conn, :user_id))
+    user =
+      conn
+      |> get_session(:user_id)
+      |> get_user()
+
+    assign(conn, :current_user, user)
   end
-  def do_load_current_user(conn, nil), do: conn
+  defp get_user(nil), do: nil
+  defp get_user(id),  do: Repo.get(User, id)
+
   def do_load_current_user(conn, user_id) do
     assign(conn, :current_user, Repo.get(User, user_id))
   end

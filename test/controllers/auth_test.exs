@@ -107,7 +107,7 @@ defmodule NelsonApproved.AuthTest do
   describe "load_current_user/1" do
     test "user not logged-in", %{conn: conn} do
       conn = Auth.load_current_user(conn, [])
-      refute conn.assigns[:current_user]
+      refute conn.assigns.current_user
     end
 
     test "user logged-in", %{conn: conn} do
@@ -129,8 +129,8 @@ defmodule NelsonApproved.AuthTest do
       # When: Loading current user
       conn = Auth.load_current_user(conn, [])
 
-      # Then: Current user is loaded
-      refute conn.assigns[:current_user]
+      # Then: Current user is nil
+      refute conn.assigns.current_user
     end
   end
 
