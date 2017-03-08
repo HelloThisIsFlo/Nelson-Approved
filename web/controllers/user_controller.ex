@@ -1,6 +1,6 @@
 defmodule NelsonApproved.UserController do
   use NelsonApproved.Web, :controller
-
+  alias NelsonApproved.Auth
   alias NelsonApproved.User
 
   def index(conn, _params) do
@@ -17,9 +17,10 @@ defmodule NelsonApproved.UserController do
     changeset = User.changeset(%User{}, user_params)
 
     case Repo.insert(changeset) do
-      {:ok, _user} ->
+      {:ok, user} ->
         conn
         |> put_flash(:info, "Welcome !")
+        |> Auth.login(user)
         |> redirect(to: page_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)

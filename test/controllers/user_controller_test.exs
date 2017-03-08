@@ -53,21 +53,22 @@ defmodule NelsonApproved.UserControllerTest do
   describe "Create new user => " do
     test "renders form for new resources", %{conn: conn} do
       conn = get conn, user_path(conn, :new)
-      assert html_response(conn, 200) =~ "New user"
+      assert html_response(conn, 200) =~ "Register"
     end
 
-    test "creates resource and redirects when data is valid", %{conn: conn} do
+    test "create user and log-in", %{conn: conn} do
       conn = post conn, user_path(conn, :create), user: @valid_attrs
 
       assert Repo.get_by(User, @valid_attrs_wo_pass)
 
       assert redirected_to(conn) == page_path(conn, :index)
       assert get_flash(conn, :info) =~ "Welcome !"
+      assert conn.assigns.current_user
     end
 
     test "does not create resource and renders errors when data is invalid", %{conn: conn} do
       conn = post conn, user_path(conn, :create), user: @invalid_attrs
-      assert html_response(conn, 200) =~ "New user"
+      assert html_response(conn, 200) =~ "Register"
     end
   end
 
