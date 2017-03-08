@@ -19,9 +19,14 @@
         <nav role="navigation">
           <ul class="nav nav-pills pull-right">
               <%= if @show_why? do %>
-                <li> <%= link "Why?", to: page_path(@conn, :why) %> </li>
-                <li> <%= link "User", to: user_path(@conn, :index) %> </li>
-                <li> <%= link "Food(temp)", to: food_path(@conn, :index) %> </li>
+                <li> <%= link "Why?", to: page_path(@conn, :why), class: "header-item" %> </li>
+                <!-- <li> <%= link "User", to: user_path(@conn, :index) %> </li> -->
+                <!-- <li> <%= link "Food(temp)", to: food_path(@conn, :index) %> </li> -->
+              <% end %>
+              <%= if @current_user do %>
+                  <li> <%= button "Logout", to: session_path(@conn, :delete, "logout"), method: :delete, class: "header-item"  %>
+              <% else %>
+                  <li> <%= link "Login", to: session_path(@conn, :new), class: "header-item"  %>
               <% end %>
           </ul>
         </nav>

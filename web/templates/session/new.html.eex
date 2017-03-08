@@ -1,20 +1,30 @@
-<h1 class="text-center">Login</h1>
-
 <div class="row" >
-    <div class="col-sm-6 col-sm-offset-3">
-    <%= form_for @conn, session_path(@conn, :create), [as: :login], fn f -> %>
-        <div class="form-group">
-            <%= text_input f, :username,
-                                class: "form-control input-xl",
-                                placeholder: "Username" %>
+    <div class="col-sm-4 col-sm-offset-1">
+        <h1 class="text-center">Login</h1>
+        <%= form_for @conn, session_path(@conn, :create), [as: :login], fn f -> %>
+            <div class="form-group">
+                <%= text_input f, :username,
+                                    class: "form-control input-xl",
+                                    placeholder: "Username" %>
+            </div>
+            <div class="form-group">
+                <%= password_input f, :password,
+                                    class: "form-control input-xl",
+                                    placeholder: "Password" %>
+            </div>
+            <%= submit "Login", class: "btn btn-primary " %>
+        <% end %>
+    </div>
+
+    <div class="col-sm-2">
+        <h1 class="text-center">Or</h1>
+    </div>
+
+    <div class="col-sm-4" >
+        <h1 class="text-center">Create a new account</h1>
+        <div class="text-center" >
+            <%= button "Register", to: user_path(@conn, :new), class: "btn btn-primary btn-lg", method: :get %>
         </div>
-        <div class="form-group">
-            <%= password_input f, :password,
-                                class: "form-control input-xl",
-                                placeholder: "Password" %>
-        </div>
-        <%= submit "Login", class: "btn btn-primary " %>
-    <% end %>
     </div>
 </div>
 

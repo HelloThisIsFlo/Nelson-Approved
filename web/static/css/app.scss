@@ -5,6 +5,7 @@
 \*-----------------*/
 $primary-color: #9AB556;
 $primary-color-dark: #667739;
+$white-hover-color: #EEEEEE;
 
 
 /*-----------------*\
@@ -35,29 +36,46 @@ html {
 
 
 // Header //////////////////////////////////
-.logo {
-    width: auto;
-    height: auto;
+.header {
+    .logo {
+        width: auto;
+        height: auto;
 
-    max-height: 90px;
-    max-width: 200px;
-    @include from-tablet {
-        max-height: 120px;
-        max-width: 519px;
+        max-height: 90px;
+        max-width: 200px;
+        @include from-tablet {
+            max-height: 120px;
+            max-width: 519px;
+        }
+
+        display: inline-block;
+        margin-bottom: 1em;
     }
-
-    display: inline-block;
-    margin-bottom: 1em;
-}
-.nav>li>a {
-    font-size: 2em;
-    @include from-tablet {
-        font-size: 3em;
-    }
-
-    &:hover {
-        background-color: white;
-        color: $primary-color;
+    nav {
+        > ul > li {
+            .header-item {
+                font-size: 2em;
+                @include from-tablet {
+                    font-size: 3em;
+                }
+                &:hover {
+                    background-color: $white-hover-color;
+                    color: $primary-color;
+                }
+            }
+            > form  {
+                margin-top: 0px;
+                padding: 0px;
+                position: relative;
+                display: block;
+                > button {
+                    background:none;
+                    border:none;
+                    padding: 10px 15px;
+                    border-radius: 4px;
+                }
+            }
+        }
     }
 }
 
@@ -102,7 +120,7 @@ html {
     font-size: 1em;
 
     &:hover {
-        background-color: white;
+        background-color: $white-hover-color;
         color: $primary-color;
     }
 }
