@@ -4,8 +4,11 @@ defmodule NelsonApproved.UserFoodController do
   alias NelsonApproved.UserFood
 
   def index(conn, _params) do
-    user_foods = Repo.all(UserFood)
-    render(conn, "index.html", user_foods: user_foods)
+    user =
+      conn.assigns.current_user
+      |> Repo.preload(:foods)
+
+    render(conn, "index.html", user_foods: user.foods)
   end
 
   def new(conn, _params) do
