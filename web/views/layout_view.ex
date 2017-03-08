@@ -1,7 +1,9 @@
 defmodule NelsonApproved.LayoutView do
   use NelsonApproved.Web, :view
+  alias NelsonApproved.User
   import Plug.Conn
 
-  def logged_in?(conn), do: get_session(conn, :logged_in?) == true
+  def is_admin(%User{admin: admin?}), do: admin?
+  def is_admin(_), do: false
 
 end

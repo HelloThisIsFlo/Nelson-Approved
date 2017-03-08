@@ -20,8 +20,10 @@
           <ul class="nav nav-pills pull-right">
               <%= if @show_why? do %>
                 <li> <%= link "Why?", to: page_path(@conn, :why), class: "header-item" %> </li>
-                <!-- <li> <%= link "User", to: user_path(@conn, :index) %> </li> -->
-                <!-- <li> <%= link "Food(temp)", to: food_path(@conn, :index) %> </li> -->
+              <% end %>
+              <%= if is_admin(@current_user) do %>
+                  <li> <%= link "User", to: user_path(@conn, :index), class: "header-item"  %> </li>
+                  <li> <%= link "Food/Admin", to: food_path(@conn, :index), class: "header-item"  %> </li>
               <% end %>
               <%= if @current_user do %>
                   <li> <%= button "Logout", to: session_path(@conn, :delete, "logout"), method: :delete, class: "header-item"  %>
