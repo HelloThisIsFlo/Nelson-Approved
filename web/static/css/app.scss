@@ -18,7 +18,7 @@ main {
         margin-top: 30px;
     }
 }
-body, a:not(.alert-link) {
+body, a:not(.alert-link, .btn) {
     background: $primary-color;
     color: white;
     font-family: 'Rancho';
@@ -94,10 +94,14 @@ html {
         padding-top: 5px;
         padding-bottom: 5px;
     }
-    .btn-social-icon {
+    .btn-social-icon:not(:hover), .btn-social:not(:hover) {
+        background: $primary-color;
+        color: white;
+        font-family: 'Rancho';
         margin-top: 10px;
         margin-bottom: 10px;
     }
+
 
     @include from-tablet {
         height: 80px;
@@ -115,6 +119,7 @@ html {
     }
 }
 #blog-link {
+    color: white;
     background-color: $primary-color-dark;
     border: solid white 1px;
     font-size: 1em;
