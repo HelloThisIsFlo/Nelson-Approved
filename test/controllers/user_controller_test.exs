@@ -1,8 +1,8 @@
 defmodule NelsonApproved.UserControllerTest do
   use NelsonApproved.ConnCase
   alias NelsonApproved.User
-  @valid_attrs %{username: "some content", password: "some content", admin: true}
-  @valid_attrs_wo_pass Map.drop(@valid_attrs, [:password])
+  @valid_attrs %{username: "some content", password: "some content", admin: false}
+  @valid_attrs_admin %{username: "some content", password: "some content", admin: true}
   @invalid_attrs %{}
 
   setup(%{conn: conn} = context) do
@@ -59,11 +59,18 @@ defmodule NelsonApproved.UserControllerTest do
     test "create user and log-in", %{conn: conn} do
       conn = post conn, user_path(conn, :create), user: @valid_attrs
 
-      assert Repo.get_by(User, @valid_attrs_wo_pass)
+      assert Repo.get_by(User, %{username: @valid_attrs.username})
 
       assert redirected_to(conn) == page_path(conn, :index)
       assert get_flash(conn, :info) =~ "Welcome !"
       assert conn.assigns.current_user
+    end
+
+    test "cannot create admin", %{conn: conn} do
+      post conn, user_path(conn, :create), user: @valid_attrs_admin
+      created = Repo.get_by(User, %{username: @valid_attrs.username})
+      assert created
+      refute created.admin
     end
 
     test "does not create resource and renders errors when data is invalid", %{conn: conn} do

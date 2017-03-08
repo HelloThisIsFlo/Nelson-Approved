@@ -14,6 +14,7 @@ defmodule NelsonApproved.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
+    user_params = Map.drop(user_params, ["admin"])
     changeset = User.changeset(%User{}, user_params)
 
     case Repo.insert(changeset) do
