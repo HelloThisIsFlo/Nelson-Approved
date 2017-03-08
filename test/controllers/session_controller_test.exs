@@ -17,7 +17,7 @@ defmodule NelsonApproved.SessionControllerTest do
   end
 
   describe "login" do
-    test "correct password, redirects to food page", %{conn: conn} do
+    test "correct password, redirects to main page", %{conn: conn} do
       # Given: A user exist
       insert_user(username: "Frank", password: "secret_password")
 
@@ -26,7 +26,7 @@ defmodule NelsonApproved.SessionControllerTest do
 
       assert get_flash(conn, :info) =~ "Logged in!"
       assert %User{username: "Frank"} = conn.assigns.current_user
-      assert redirected_to(conn) =~ food_path(conn, :index)
+      assert redirected_to(conn) == page_path(conn, :index)
 
       assert still_logged_in_after_new_connection(conn)
     end
