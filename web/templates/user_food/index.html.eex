@@ -18,8 +18,6 @@
       <td><%= user_food.user_id %></td>
 
       <td class="text-right">
-        <%= link "Show", to: user_food_path(@conn, :show, user_food), class: "btn btn-default btn-xs" %>
-        <%= link "Edit", to: user_food_path(@conn, :edit, user_food), class: "btn btn-default btn-xs" %>
         <%= link "Delete", to: user_food_path(@conn, :delete, user_food), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
       </td>
     </tr>

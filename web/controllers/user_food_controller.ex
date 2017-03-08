@@ -26,31 +26,6 @@ defmodule NelsonApproved.UserFoodController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    user_food = Repo.get!(UserFood, id)
-    render(conn, "show.html", user_food: user_food)
-  end
-
-  def edit(conn, %{"id" => id}) do
-    user_food = Repo.get!(UserFood, id)
-    changeset = UserFood.changeset(user_food)
-    render(conn, "edit.html", user_food: user_food, changeset: changeset)
-  end
-
-  def update(conn, %{"id" => id, "user_food" => user_food_params}) do
-    user_food = Repo.get!(UserFood, id)
-    changeset = UserFood.changeset(user_food, user_food_params)
-
-    case Repo.update(changeset) do
-      {:ok, user_food} ->
-        conn
-        |> put_flash(:info, "User food updated successfully.")
-        |> redirect(to: user_food_path(conn, :show, user_food))
-      {:error, changeset} ->
-        render(conn, "edit.html", user_food: user_food, changeset: changeset)
-    end
-  end
-
   def delete(conn, %{"id" => id}) do
     user_food = Repo.get!(UserFood, id)
 

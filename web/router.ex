@@ -1,7 +1,7 @@
 defmodule NelsonApproved.Router do
   use NelsonApproved.Web, :router
   alias NelsonApproved.DefaultValues
-  import NelsonApproved.Auth, only: [load_current_user: 2, authenticate_admin: 2]
+  import NelsonApproved.Auth, only: [load_current_user: 2, authenticate_admin: 2, authenticate_logged_in: 2]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -26,8 +26,13 @@ defmodule NelsonApproved.Router do
 
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     resources "/users", UserController, only: [:new, :create]
+  end
 
-    resources "/user_foods", UserFoodController
+
+  scope "/private/", NelsonApproved do
+    pipe_through [:browser, :authenticate_logged_in]
+
+    resources "/user_foods", UserFoodController, only: [:index, :new, :create, :delete]
   end
 
   scope "/manage", NelsonApproved do
@@ -36,6 +41,7 @@ defmodule NelsonApproved.Router do
     resources "/foods", FoodController, only: [:index, :new, :create, :delete]
     resources "/users", UserController, only: [:index, :delete]
   end
+
 
   # Other scopes may use custom stacks.
   # scope "/api", NelsonApproved do
