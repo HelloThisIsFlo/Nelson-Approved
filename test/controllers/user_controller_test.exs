@@ -18,8 +18,7 @@ defmodule NelsonApproved.UserControllerTest do
       get(conn, user_path(conn, :index)),
       delete(conn, user_path(conn, :delete, 1))
     ], fn(conn) ->
-      flash = get_flash conn, :error
-      refute String.length(flash) == 0
+      assert get_flash(conn, :error) =~ "must be logged-in"
       assert redirected_to(conn) =~ session_path(conn, :new)
     end)
   end
@@ -30,11 +29,11 @@ defmodule NelsonApproved.UserControllerTest do
       get(conn, user_path(conn, :index)),
       delete(conn, user_path(conn, :delete, 1))
     ], fn(conn) ->
-      flash = get_flash conn, :error
-      refute String.length(flash) == 0
+      assert get_flash(conn, :error) =~ "must be an admin"
       assert redirected_to(conn) =~ session_path(conn, :new)
     end)
   end
+
 
   @tag :logged_in
   @tag :as_admin

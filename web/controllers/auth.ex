@@ -5,6 +5,9 @@ defmodule NelsonApproved.Auth do
   import Phoenix.Controller
   import Plug.Conn
 
+  #############################################################################
+  #                             Load current user                             #
+  #############################################################################
   def load_current_user(conn, _params) do
     user =
       conn
@@ -21,10 +24,13 @@ defmodule NelsonApproved.Auth do
   end
 
 
+
+  #############################################################################
+  #                                Authenticate                               #
+  #############################################################################
   def authenticate_admin(conn, _params) do
     do_authenticate_admin(conn, conn.assigns[:current_user])
   end
-
   defp do_authenticate_admin(conn, %User{admin: true}), do: conn
   defp do_authenticate_admin(conn, %User{admin: false}) do
     conn
@@ -39,7 +45,21 @@ defmodule NelsonApproved.Auth do
     |> redirect(to: Helpers.session_path(conn, :new))
   end
 
+  def authenticate_logged_in(conn, _params) do
+    do_authenticate_logged_in(conn, conn.assigns[:current_user])
+  end
+  defp do_authenticate_logged_in(conn, %User{}), do: conn
+  defp do_authenticate_logged_in(conn, _) do
+    conn
+    |> halt()
+    |> put_flash(:error, "You must be logged-in to access this page")
+    |> redirect(to: Helpers.session_path(conn, :new))
+  end
 
+
+  #############################################################################
+  #                               Login / Logout                              #
+  #############################################################################
   def login(conn, %User{} = user) do
     conn
     |> put_session(:user_id, user.id)
@@ -47,12 +67,10 @@ defmodule NelsonApproved.Auth do
     |> configure_session(renew: true)
   end
 
-
   def logout(conn) do
     conn
     |> configure_session(drop: true)
   end
-
 
   def login_with_username_and_password(conn, username, password) do
     user = Repo.get_by(User, %{username: username})
@@ -69,6 +87,5 @@ defmodule NelsonApproved.Auth do
   defp check_pw(user, password) do
     Comeonin.Bcrypt.checkpw(password, user.pass_hash)
   end
-
 
 end

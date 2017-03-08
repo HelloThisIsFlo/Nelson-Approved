@@ -17,8 +17,20 @@ defmodule NelsonApproved.FoodControllerTest do
       post(conn, food_path(conn, :create), food: %{}),
       delete(conn, food_path(conn, :delete, 1))
     ], fn(conn) ->
-      flash = get_flash conn, :error
-      refute String.length(flash) == 0
+      assert get_flash(conn, :error) =~ "must be logged-in"
+      assert redirected_to(conn) =~ session_path(conn, :new)
+    end)
+  end
+
+  @tag :logged_in
+  test "not admin, cannot access food section", %{conn: conn} do
+    Enum.each([
+      get(conn, food_path(conn, :index)),
+      get(conn, food_path(conn, :new)),
+      post(conn, food_path(conn, :create), food: %{}),
+      delete(conn, food_path(conn, :delete, 1))
+    ], fn(conn) ->
+      assert get_flash(conn, :error) =~ "must be an admin"
       assert redirected_to(conn) =~ session_path(conn, :new)
     end)
   end

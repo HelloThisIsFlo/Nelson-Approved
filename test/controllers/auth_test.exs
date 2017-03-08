@@ -104,6 +104,38 @@ defmodule NelsonApproved.AuthTest do
     end
   end
 
+  describe "authenticate_logged_in/2" do
+    test "not logged in, redirect", %{conn: conn} do
+      conn =
+        conn
+        |> Auth.authenticate_logged_in([])
+
+      assert conn.halted
+      assert redirected_to(conn) =~ page_path(conn, :index)
+      assert get_flash(conn, :error) =~ "must be logged-in"
+    end
+
+    test "logged-in as regular user, do not redirect", %{conn: conn} do
+      conn =
+        conn
+        |> Auth.login(%User{id: 1, admin: false})
+        |> Auth.authenticate_logged_in([])
+
+      refute conn.halted()
+      refute conn.state == :sent
+    end
+
+    test "logged-in as admin, do not redirect", %{conn: conn} do
+      conn =
+        conn
+        |> Auth.login(%User{id: 1, admin: true})
+        |> Auth.authenticate_logged_in([])
+
+      refute conn.halted()
+      refute conn.state == :sent
+    end
+  end
+
   describe "load_current_user/1" do
     test "user not logged-in", %{conn: conn} do
       conn = Auth.load_current_user(conn, [])
