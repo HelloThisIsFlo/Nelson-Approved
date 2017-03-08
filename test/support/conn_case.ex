@@ -32,7 +32,12 @@ defmodule NelsonApproved.ConnCase do
       @endpoint NelsonApproved.Endpoint
 
 
-      def login(conn, admin?: admin) do
+      def login(conn, login?, as_admin?)
+      def login(conn, true, true), do: do_login(conn, admin?: true)
+      def login(conn, true, _),    do: do_login(conn, admin?: false)
+      def login(conn, _, _),       do: conn
+
+      defp do_login(conn, admin?: admin) do
         user = insert_user(admin: admin)
 
         conn

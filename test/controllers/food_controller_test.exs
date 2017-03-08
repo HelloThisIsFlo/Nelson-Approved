@@ -5,15 +5,10 @@ defmodule NelsonApproved.FoodControllerTest do
   setup(%{conn: conn} = context) do
     conn =
       conn
-      |> do_login(context[:logged_in], context[:as_admin])
+      |> login(context[:logged_in], context[:as_admin])
 
     %{conn: conn}
   end
-
-  defp do_login(conn, logged_in?, as_admin?)
-  defp do_login(conn, true, true), do: login(conn, admin?: true)
-  defp do_login(conn, true, _), do: login(conn, admin?: false)
-  defp do_login(conn, _, _), do: conn
 
   test "not logged-in, cannot access food section", %{conn: conn} do
     Enum.each([
