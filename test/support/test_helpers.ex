@@ -2,6 +2,8 @@ defmodule NelsonApproved.TestHelpers do
   alias NelsonApproved.Repo
   alias NelsonApproved.Food
   alias NelsonApproved.User
+  alias NelsonApproved.UserFood
+  import Ecto
 
   def insert_food(name, approved \\ true) do
     %Food{name: name, approved: approved}
@@ -14,6 +16,13 @@ defmodule NelsonApproved.TestHelpers do
 
     %User{}
     |> User.changeset(attrs)
+    |> Repo.insert!()
+  end
+
+  def insert_user_food(user, name, approved \\ true) do
+    user
+    |> build_assoc(:foods)
+    |> UserFood.changeset(%{name: name, approved: approved})
     |> Repo.insert!()
   end
 

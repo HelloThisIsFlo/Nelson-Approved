@@ -7,6 +7,7 @@ defmodule NelsonApproved.User do
     field :password, :string, virtual: true
     field :pass_hash, :string
     field :admin, :boolean, default: false
+    has_many :foods, NelsonApproved.UserFood
 
     timestamps()
   end

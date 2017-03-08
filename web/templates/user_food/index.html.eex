@@ -1,0 +1,30 @@
+<h2>Listing user foods</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Approved</th>
+      <th>User</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for user_food <- @user_foods do %>
+    <tr>
+      <td><%= user_food.name %></td>
+      <td><%= user_food.approved %></td>
+      <td><%= user_food.user_id %></td>
+
+      <td class="text-right">
+        <%= link "Show", to: user_food_path(@conn, :show, user_food), class: "btn btn-default btn-xs" %>
+        <%= link "Edit", to: user_food_path(@conn, :edit, user_food), class: "btn btn-default btn-xs" %>
+        <%= link "Delete", to: user_food_path(@conn, :delete, user_food), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<%= link "New user food", to: user_food_path(@conn, :new) %>
