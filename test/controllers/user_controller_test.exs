@@ -29,18 +29,17 @@ defmodule NelsonApproved.UserControllerTest do
     end)
   end
 
-  # # TODO: Uncomment when non-admin users feature added
-  # @tag :logged_in
-  # test "not admin, cannot access user management section", %{conn: conn} do
-  #   Enum.each([
-  #     get(conn, user_path(conn, :index)),
-  #     delete(conn, user_path(conn, :delete, 1))
-  #   ], fn(conn) ->
-  #     flash = get_flash conn, :error
-  #     refute String.length(flash) == 0
-  #     assert redirected_to(conn) =~ session_path(conn, :new)
-  #   end)
-  # end
+  @tag :logged_in
+  test "not admin, cannot access user management section", %{conn: conn} do
+    Enum.each([
+      get(conn, user_path(conn, :index)),
+      delete(conn, user_path(conn, :delete, 1))
+    ], fn(conn) ->
+      flash = get_flash conn, :error
+      refute String.length(flash) == 0
+      assert redirected_to(conn) =~ session_path(conn, :new)
+    end)
+  end
 
   @tag :logged_in
   @tag :as_admin

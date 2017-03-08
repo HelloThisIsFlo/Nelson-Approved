@@ -33,11 +33,7 @@ defmodule NelsonApproved.ConnCase do
 
 
       def login(conn, admin?: admin) do
-        if admin == false do
-          raise "Not yet implemented"
-        end
-
-        user = insert_user(admin: true)
+        user = insert_user(admin: admin)
 
         conn
         |> bypass_through(NelsonApproved.Router, [:browser])
