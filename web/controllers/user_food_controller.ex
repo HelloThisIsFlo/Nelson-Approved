@@ -17,7 +17,10 @@ defmodule NelsonApproved.UserFoodController do
   end
 
   def create(conn, %{"user_food" => user_food_params}) do
-    changeset = UserFood.changeset(%UserFood{}, user_food_params)
+    changeset =
+      conn.assigns.current_user
+      |> build_assoc(:foods)
+      |> UserFood.changeset(user_food_params)
 
     case Repo.insert(changeset) do
       {:ok, _user_food} ->
@@ -30,7 +33,12 @@ defmodule NelsonApproved.UserFoodController do
   end
 
   def delete(conn, %{"id" => id}) do
-    user_food = Repo.get!(UserFood, id)
+
+    user_food =
+      conn.assigns.current_user
+      |> assoc(:foods)
+      |> Repo.get!(id)
+
 
     # Here we use delete! (with a bang) because we expect
     # it to always work (and if it does not, it will raise).

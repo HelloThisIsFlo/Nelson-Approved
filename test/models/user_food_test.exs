@@ -3,8 +3,6 @@ defmodule NelsonApproved.UserFoodTest do
   alias NelsonApproved.UserFood
   alias NelsonApproved.Repo
 
-  @invalid_attrs %{}
-
   setup(context) do
     Map.put(context, :user, insert_user())
   end
