@@ -1,6 +1,5 @@
 defmodule NelsonApprovedTest do
   use NelsonApproved.ModelCase
-  alias NelsonApproved.KeyValue
   alias NelsonApproved.Repo
   alias NelsonApproved.Food
   alias NelsonApproved.AiCounterMock
@@ -8,26 +7,34 @@ defmodule NelsonApprovedTest do
   setup(context) do
     AiCounterMock.start_mock
 
-    approved = Map.get(context, :approved, [])
-    not_approved = Map.get(context, :not_approved, [])
+    insert_food_if_not_nil(context[:approved], true)
+    insert_food_if_not_nil(context[:not_approved], false)
 
-    Enum.each(approved, &Repo.insert!(%Food{name: &1, approved: true}))
-    Enum.each(not_approved, &Repo.insert!(%Food{name: &1, approved: false}))
+    :ok
   end
+
+  defp insert_food_if_not_nil(nil, _), do: :ignored
+  defp insert_food_if_not_nil(food, approved), do: Repo.insert!(%Food{name: food, approved: approved})
 
   test "Not a food name" do
     assert_unknown "sadf"
   end
 
-  describe "In Database: =>" do
-    @tag approved:     ["carrot"]
-    @tag not_approved: ["pizza"]
-    test "convert value" do
+  describe "In User Database =>" do
+    test "use database user value"
+    test "ignore case and whitespaces"
+    test "override nelson's approval"
+  end
+
+  describe "In Admin/Nelson Database: =>" do
+    @tag approved:     "carrot"
+    @tag not_approved: "pizza"
+    test "use database value" do
       assert_approved "carrot"
       assert_not_approved "pizza"
     end
 
-    @tag approved: ["carrot"]
+    @tag approved: "carrot"
     test "ignore case and whitespaces" do
       assert_approved "cArrOt"
       assert_approved "   cArrOt   "

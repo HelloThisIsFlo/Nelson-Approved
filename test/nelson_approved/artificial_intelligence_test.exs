@@ -1,7 +1,5 @@
 defmodule NelsonApproved.ArtificialIntelligenceTest do
   use NelsonApproved.ModelCase
-  alias NelsonApproved.Repo
-  alias NelsonApproved.KeyValue
   alias NelsonApproved.ArtificialIntelligence
   alias NelsonApproved.AiCounterMock
 

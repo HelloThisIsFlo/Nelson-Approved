@@ -1,7 +1,12 @@
 defmodule NelsonApproved.PageControllerIntegrationTest do
   use NelsonApproved.ConnCase, async: false
+  alias NelsonApproved.AiCounterMock
 
   @moduletag :integration
+  setup do
+    AiCounterMock.start_mock()
+    :ok
+  end
 
   test "food approved", %{conn: conn} do
     insert_food("carrot", true)
