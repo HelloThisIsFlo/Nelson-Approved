@@ -22,6 +22,7 @@ config :nelson_approved, NelsonApproved.Repo,
 config :nelson_approved,
   nelson_approved: NelsonApproved.NelsonApprovedMock,
   network_ai_module: NelsonApproved.AiNetworkMock,
+  counter_ai_module: NelsonApproved.AiCounterMock,
   food_names_file: "./test/food.txt"
 
 

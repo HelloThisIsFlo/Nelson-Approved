@@ -22,4 +22,8 @@ defmodule NelsonApproved.AiCounterMock do
     end)
   end
 
+  def get_counter() do
+    Agent.get(__MODULE__, fn(counter) -> counter end)
+  end
+
 end

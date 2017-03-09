@@ -3,28 +3,30 @@ defmodule NelsonApproved.ArtificialIntelligenceTest do
   alias NelsonApproved.Repo
   alias NelsonApproved.KeyValue
   alias NelsonApproved.ArtificialIntelligence
+  alias NelsonApproved.AiCounterMock
+
+  setup do
+    AiCounterMock.start_mock()
+    :ok
+  end
 
   describe "Ask AI:" do
     test "above approved threshold" do
-      set_call_counter 10
       set_mock_ai_response 0.99
       assert ArtificialIntelligence.is_processed_food? "whatever"
     end
 
     test "below not approved threshold" do
-      set_call_counter 10
       set_mock_ai_response 0.10
       refute ArtificialIntelligence.is_processed_food? "whatever"
     end
 
     test "in-between both threshold" do
-      set_call_counter 10
       set_mock_ai_response 0.7
       assert :unknown == ArtificialIntelligence.is_processed_food? "whatever"
     end
 
     test "error sent by network module" do
-      set_call_counter 10
       set_mock_ai_response :error
       assert :unknown == ArtificialIntelligence.is_processed_food? "whatever"
     end
@@ -66,13 +68,9 @@ defmodule NelsonApproved.ArtificialIntelligenceTest do
   end
 
   defp set_call_counter(counter) do
-    %KeyValue{}
-    |> KeyValue.changeset(%{key: "CALL_COUNTER", value: counter})
-    |> Repo.insert!
+    AiCounterMock.set_counter(counter)
   end
   defp get_call_counter do
-    KeyValue
-    |> Repo.get_by!(%{key: "CALL_COUNTER"})
-    |> Map.get(:value)
+    AiCounterMock.get_counter()
   end
 end

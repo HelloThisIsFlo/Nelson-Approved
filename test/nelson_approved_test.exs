@@ -36,25 +36,21 @@ defmodule NelsonApprovedTest do
 
   describe "Not in Database: Ask AI =>" do
     test "approved" do
-      set_call_counter 10
       set_mock_probability_processed_food 0.1
       assert_approved "carrot", true
     end
 
     test "not approved" do
-      set_call_counter 10
       set_mock_probability_processed_food 0.9
       assert_not_approved "carrot", true
     end
 
     test "still unknown" do
-      set_call_counter 10
       set_mock_probability_processed_food 0.7
       assert_unknown "carrot", true
     end
 
     test "too many calls" do
-      set_call_counter 6000
       set_mock_probability_processed_food 0.7
       assert_unknown "carrot", true
     end
@@ -63,11 +59,6 @@ defmodule NelsonApprovedTest do
       send self(), val
     end
 
-    defp set_call_counter(counter) do
-      %KeyValue{}
-      |> KeyValue.changeset(%{key: "CALL_COUNTER", value: counter})
-      |> Repo.insert!
-    end
   end
 
   test "closest_match" do
