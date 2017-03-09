@@ -3,8 +3,11 @@ defmodule NelsonApprovedTest do
   alias NelsonApproved.KeyValue
   alias NelsonApproved.Repo
   alias NelsonApproved.Food
+  alias NelsonApproved.AiCounterMock
 
   setup(context) do
+    AiCounterMock.start_mock
+
     approved = Map.get(context, :approved, [])
     not_approved = Map.get(context, :not_approved, [])
 

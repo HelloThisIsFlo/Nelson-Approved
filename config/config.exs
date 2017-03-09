@@ -19,7 +19,8 @@ config :nelson_approved,
 # Configure authentication
 config :nelson_approved,
   food_names_file: "./lib/food.txt",
-  network_ai_module: NelsonApproved.ArtificialIntelligence.Network
+  network_ai_module: NelsonApproved.ArtificialIntelligence.Network,
+  counter_ai_module: NelsonApproved.ArtificialIntelligence.Counter
 
 
 # Configures the endpoint
