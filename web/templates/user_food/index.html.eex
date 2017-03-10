@@ -5,6 +5,7 @@
     </div>
 </div>
 
+<%= if not Enum.empty? @user_foods do %>
 <div class="row" >
     <div class="col-sm-8 "  id="food-table">
         <table class="table">
@@ -33,6 +34,11 @@
         </table>
     </div>
 </div>
+<% else %>
+<div class="row"  id="empty-food-list-margin">
+    
+</div>
+<% end %>
 
 <div class="row" >
 <%= link "Save a new Food preference", to: user_food_path(@conn, :new),
