@@ -4,10 +4,18 @@ defmodule NelsonApproved.PageControllerIntegrationTest do
   alias NelsonApproved.AiNetworkMock
 
   @moduletag :integration
-  setup do
+  setup(%{conn: conn} = context) do
     AiCounterMock.start_mock()
     AiNetworkMock.start_mock()
-    :ok
+
+    conn = login(conn, context[:logged_in], false)
+
+    conn_with_user =
+      conn
+      |> bypass_through(NelsonApproved.Router, :browser)
+      |> get("/go_through and load user")
+
+    %{conn: conn, logged_in_user: conn_with_user.assigns.current_user}
   end
 
   test "food approved", %{conn: conn} do
@@ -46,6 +54,20 @@ defmodule NelsonApproved.PageControllerIntegrationTest do
     assert html_response(conn, 200) =~ "not sure"
     assert conn.assigns.result == :unknown
     assert conn.assigns.suggestion == ""
+  end
+
+  @tag :logged_in
+  test "user food override", %{conn: conn, logged_in_user: user} do
+    # Given: User & Nelson have different version
+    insert_user_food(user, "pizza", true)
+    insert_food("pizza", false)
+
+    # When: Checking if food is approved
+    conn = post conn, page_path(conn, :check), check: %{"food" => "pizza"}
+
+    # Then: User value is taken
+    assert html_response(conn, 200) =~ "approved"
+    assert conn.assigns.result == :approved
   end
 
   defp mock_ai_response(response) do

@@ -26,6 +26,7 @@
                   <li> <%= link "Food/Admin", to: food_path(@conn, :index), class: "header-item"  %> </li>
               <% end %>
               <%= if @current_user do %>
+                  <li> <%= link "My Foods", to: user_food_path(@conn, :index), class: "header-item"  %> </li>
                   <li> <%= button "Logout", to: session_path(@conn, :delete, "logout"), method: :delete, class: "header-item"  %>
               <% else %>
                   <li> <%= link "Login", to: session_path(@conn, :new), class: "header-item"  %>

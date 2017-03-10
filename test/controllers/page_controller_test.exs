@@ -63,7 +63,6 @@ defmodule NelsonApproved.PageControllerTest do
       conn = post conn, page_path(conn, :check), check: %{"food" => " CarroT   "}
       assert_using_ai(conn)
     end
-
   end
 
   defp assert_using_ai(conn) do

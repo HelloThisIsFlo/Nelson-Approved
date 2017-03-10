@@ -1,8 +1,9 @@
 defmodule NelsonApproved.NelsonApprovedMock do
+  alias NelsonApproved.User
   @behaviour NelsonApproved.Behaviour
 
-  @spec approved?(String.t) :: :approved | :not_approved | :unknown
-  def approved?(_food) do
+  @spec approved?(String.t, %User{}) :: Response.t
+  def approved?(_food, _user) do
     send_back_first_message_from_inbox(nil)
   end
 

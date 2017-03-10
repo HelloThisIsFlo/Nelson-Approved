@@ -20,7 +20,7 @@ defmodule NelsonApproved.PageController do
   end
 
   def check(conn, %{"check" => %{"food" => food}}) do
-    case @nelson_approved.approved?(food) do
+    case @nelson_approved.approved?(food, conn.assigns.current_user) do
       %NelsonApproved.Response{approved?: :unknown, using_ai?: ai?} ->
         render conn, "index.html",
           result: :unknown,

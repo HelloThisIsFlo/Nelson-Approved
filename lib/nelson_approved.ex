@@ -10,7 +10,7 @@ defmodule NelsonApproved do
   require Logger
 
   defmodule Behaviour do
-    @callback approved?(String.t) :: Response.t
+    @callback approved?(String.t, %User{}) :: Response.t
     @callback find_closest_match(String.t, [String.t]) :: String.t
   end
 
