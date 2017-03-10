@@ -2,9 +2,12 @@ defmodule NelsonApproved.ArtificialIntelligenceTest do
   use NelsonApproved.ModelCase
   alias NelsonApproved.ArtificialIntelligence
   alias NelsonApproved.AiCounterMock
+  alias NelsonApproved.AiNetworkMock
 
   setup do
     AiCounterMock.start_mock()
+    AiNetworkMock.start_mock()
+
     :ok
   end
 
@@ -28,10 +31,6 @@ defmodule NelsonApproved.ArtificialIntelligenceTest do
       set_mock_ai_response :error
       assert :unknown == ArtificialIntelligence.is_processed_food? "whatever"
     end
-  end
-
-  def set_mock_ai_response(val) do
-    send self(), val
   end
 
   describe "Limit number of calls to API:" do
@@ -63,6 +62,11 @@ defmodule NelsonApproved.ArtificialIntelligenceTest do
       assert 1 == get_call_counter()
     end
 
+  end
+
+
+  defp set_mock_ai_response(val) do
+    AiNetworkMock.set_mocked_value(val)
   end
 
   defp set_call_counter(counter) do

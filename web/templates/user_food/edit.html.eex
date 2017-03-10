@@ -1,6 +1,0 @@
-<h2>Edit user food</h2>
-
-<%= render "form.html", changeset: @changeset,
-                        action: user_food_path(@conn, :update, @user_food) %>
-
-<%= link "Back", to: user_food_path(@conn, :index) %>

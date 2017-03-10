@@ -3,15 +3,18 @@ defmodule NelsonApproved.AiNetworkMock do
 
   @spec semantic_relatedness(String.t, String.t) :: number
   def semantic_relatedness(_, _) do
-    send_back_first_message_from_inbox(:unknown)
+    get_mocked_value()
+  end
+  defp get_mocked_value(), do: Agent.get(__MODULE__, &(&1))
+
+
+  # Mock related functions ####################################################
+  def start_mock() do
+    Agent.start_link(fn -> 0 end, name: __MODULE__)
   end
 
-  defp send_back_first_message_from_inbox(default) do
-    receive do
-      result_from_test ->
-        result_from_test
-    after
-      0 -> default
-    end
+  def set_mocked_value(val) do
+    Agent.update(__MODULE__, fn(_) -> val end)
   end
+
 end

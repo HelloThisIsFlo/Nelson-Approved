@@ -2,7 +2,11 @@ defmodule NelsonApproved do
   alias NelsonApproved.ArtificialIntelligence
   alias NelsonApproved.Food
   alias NelsonApproved.Repo
+  alias NelsonApproved.User
+  alias NelsonApproved.UserFood
+  alias NelsonApproved.Response
   import Ecto.Query
+  import Ecto
   require Logger
 
   defmodule Behaviour do
@@ -21,15 +25,44 @@ defmodule NelsonApproved do
 
   @behaviour NelsonApproved.Behaviour
 
-
   @spec find_closest_match(String.t, [String.t]) :: String.t
   def find_closest_match(food_name, all_food_names) do
     all_food_names
     |> Enum.max_by(&String.jaro_distance(&1, food_name))
   end
 
+  @spec approved?(String.t, %User{}) :: Response.t
+  def approved?(food, user \\ nil) when is_bitstring(food) do
+    if user do
+      food =
+        food
+        |> String.downcase
+        |> String.trim
+
+      user_database_resp =
+        assoc(user, :foods)
+        |> where([f], f.name == ^food)
+        |> Repo.one
+        |> is_approved?()
+
+      after_user_database(food, user_database_resp)
+    else
+      priv_approved?(food)
+    end
+  end
+
+  defp after_user_database(food, is_approved?)
+  defp after_user_database(food, :not_found) do
+    priv_approved?(food)
+  end
+  defp after_user_database(food, is_approved?), do: %Response{approved?: is_approved?, using_ai?: false}
+
+
   @spec approved?(String.t) :: Response.t
-  def approved?(food) when is_bitstring(food) do
+  # TODO: Remove (or at least make private)
+  defp priv_approved?(food) when is_bitstring(food) do
+
+    # TODO: Remove
     food =
       food
       |> String.downcase
@@ -65,6 +98,12 @@ defmodule NelsonApproved do
     do_approved(food, true, :not_found, ai_value)
   end
 
+
+  # Convert approved values ###################################################
+  defp is_approved?(%UserFood{approved: true}),  do: :approved
+  defp is_approved?(%UserFood{approved: false}), do: :not_approved
+  # defp is_approved?(_),                      do: :not_found
+
   defp is_approved?(%Food{approved: true}),  do: :approved
   defp is_approved?(%Food{approved: false}), do: :not_approved
   defp is_approved?(_),                      do: :not_found
@@ -74,6 +113,8 @@ defmodule NelsonApproved do
   defp convert_ai_value(false), do: :approved
   defp convert_ai_value(_),     do: :unknown
 
+
+  # Utility functions #########################################################
   @spec find_one_by_name(String.t) :: %Food{} | :not_found
   defp find_one_by_name(name) do
     Food
