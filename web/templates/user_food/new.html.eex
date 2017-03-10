@@ -1,6 +1,9 @@
-<h2>New user food</h2>
 
-<%= render "form.html", changeset: @changeset,
-                        action: user_food_path(@conn, :create) %>
+<div class="row" >
+    <div class="col-sm-4 col-sm-offset-1">
+        <h2>New user food</h2>
 
-<%= link "Back", to: user_food_path(@conn, :index) %>
+        <%= render "form.html", changeset: @changeset,
+                                action: user_food_path(@conn, :create) %>
+    </div>
+</div>
