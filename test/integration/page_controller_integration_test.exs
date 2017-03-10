@@ -1,10 +1,12 @@
 defmodule NelsonApproved.PageControllerIntegrationTest do
   use NelsonApproved.ConnCase, async: false
   alias NelsonApproved.AiCounterMock
+  alias NelsonApproved.AiNetworkMock
 
   @moduletag :integration
   setup do
     AiCounterMock.start_mock()
+    AiNetworkMock.start_mock()
     :ok
   end
 
@@ -47,7 +49,7 @@ defmodule NelsonApproved.PageControllerIntegrationTest do
   end
 
   defp mock_ai_response(response) do
-    send self(), response
+    AiNetworkMock.set_mocked_value(response)
   end
 
 end
