@@ -12,7 +12,7 @@ defmodule NelsonApproved.AuthTest do
   defp prepare(conn) do
     conn
     |> bypass_through(NelsonApproved.Router, [:browser])
-    |> get("/")
+    |> get("/ only to flush the connection")
   end
 
   test "login puts user_id in session and user in assign", %{conn: conn} do
