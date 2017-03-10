@@ -25,7 +25,7 @@ defmodule NelsonApproved.UserFoodController do
     case Repo.insert(changeset) do
       {:ok, _user_food} ->
         conn
-        |> put_flash(:info, "User food created successfully.")
+        |> put_flash(:info, "Food preference successfully saved!")
         |> redirect(to: user_food_path(conn, :index))
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)

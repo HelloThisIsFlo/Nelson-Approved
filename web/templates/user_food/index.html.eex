@@ -1,28 +1,40 @@
-<h2>Listing user foods</h2>
+<div class="row" >
+    <div class="col-sm-8" id="food-header" >
+        <h2>Don't like Nelson's recommendations ?</h2>
+        <p>Save your own foods here</p>
+    </div>
+</div>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Approved</th>
-      <th>User</th>
+<div class="row" >
+    <div class="col-sm-8 "  id="food-table">
+        <table class="table">
+            <thead>
+                <tr>
+                <th>Name</th>
+                <th>Approved</th>
+                <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <%= for user_food <- @user_foods do %>
+                    <tr>
+                    <td><%= user_food.name %></td>
+                    <td><%= user_food.approved %></td>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for user_food <- @user_foods do %>
-    <tr>
-      <td><%= user_food.name %></td>
-      <td><%= user_food.approved %></td>
-      <td><%= user_food.user_id %></td>
+                    <td class="text-right">
+                        <%= link "Delete", to: user_food_path(@conn, :delete, user_food),
+                                        method: :delete,
+                                        data: [confirm: "Are you sure?"],
+                                        class: "btn btn-danger btn-lg" %>
+                    </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-      <td class="text-right">
-        <%= link "Delete", to: user_food_path(@conn, :delete, user_food), method: :delete, data: [confirm: "Are you sure?"], class: "btn btn-danger btn-xs" %>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<%= link "New user food", to: user_food_path(@conn, :new) %>
+<div class="row" >
+<%= link "Save a new Food preference", to: user_food_path(@conn, :new),
+                               class: "btn btn-primary btn-lg" %>
+</div>

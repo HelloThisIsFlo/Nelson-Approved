@@ -26,6 +26,9 @@ body, a:not(.alert-link, .btn) {
 }
 body {
     margin-bottom: 220px;
+    h1 {font-size: 4em;}
+    p {font-size: 2em;}
+    table {font-size: 2em;}
 }
 html {
     position: relative;
@@ -147,12 +150,6 @@ html {
     padding-bottom: 0px;
 }
 #check-form {
-    /* @include from-tablet { */
-    /*     padding-top: 25px; */
-    /* } */
-    /* .form-group { */
-    /*    padding-top: 30px; */
-    /* } */
     button {
         background-color: white;
         border: white;
@@ -169,9 +166,24 @@ html {
     border-radius: 8px;
 }
 
-
-// Why page //////////////////////////////////
-#why {
-    h1 {font-size: 4em;}
-    p {font-size: 2em;}
+// User food /////////////////////////////////
+#food-header {
+    background-color: $primary-color-dark;
+    border-radius: 4px;
 }
+
+#food-table {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    border: solid $primary-color-dark;
+}
+
+// Login ////////////////////////////////
+#account-header {
+    @include from-tablet {
+        margin-bottom: 50px;
+    }
+}
+
+

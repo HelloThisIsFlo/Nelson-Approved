@@ -43,7 +43,7 @@ defmodule NelsonApproved.UserFoodControllerTest do
     conn = get conn, user_food_path(conn, :index)
 
     # Then: Page renders, with expected food
-    assert html_response(conn, 200) =~ "Listing user foods"
+    assert html_response(conn, 200) =~ "Save your own foods"
     assert html_response(conn, 200) =~ "banana"
   end
 
@@ -58,7 +58,7 @@ defmodule NelsonApproved.UserFoodControllerTest do
     conn = get conn, user_food_path(conn, :index)
 
     # Then: Only food of curent user are listed
-    assert html_response(conn, 200) =~ "Listing user foods"
+    assert html_response(conn, 200) =~ "Save your own foods"
     assert html_response(conn, 200) =~ "banana"
     refute html_response(conn, 200) =~ "chili"
   end
