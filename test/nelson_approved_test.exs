@@ -19,7 +19,7 @@ defmodule NelsonApprovedTest do
 
   defp insert_food_if_not_nil(nil, _),         do: :ignored
   defp insert_food_if_not_nil(food, approved), do: insert_food(food, approved)
-  defp insert_user_food_if_not_nil(user, nil, _),         do: :ignored
+  defp insert_user_food_if_not_nil(_user, nil, _),         do: :ignored
   defp insert_user_food_if_not_nil(user, food, approved), do: insert_user_food(user, food, approved)
 
   test "Not a food name" do
