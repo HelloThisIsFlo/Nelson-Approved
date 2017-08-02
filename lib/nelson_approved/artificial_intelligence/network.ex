@@ -1,6 +1,8 @@
 defmodule NelsonApproved.ArtificialIntelligence.Network do
   use HTTPotion.Base
 
+  @timeout 1500
+
   defmodule Behaviour do
     @type word :: String.t
     @callback semantic_relatedness(word, word) :: number | :error
@@ -15,7 +17,7 @@ defmodule NelsonApproved.ArtificialIntelligence.Network do
   @spec semantic_relatedness(String.t, String.t) :: number | :error
   def semantic_relatedness(word1, word2) do
     "https://amtera.p.mashape.com/relatedness/en"
-    |> post([body: body(word1, word2)])
+    |> post([body: body(word1, word2), timeout: @timeout])
     |> Map.get(:body, "")
     |> Poison.decode
     |> extract_result
