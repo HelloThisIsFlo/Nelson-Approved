@@ -10,5 +10,3 @@ config :nelson_approved,
 config :nelson_approved,
   related_thres: 0.8,
   not_related_thres: 0.3
-
-

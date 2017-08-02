@@ -17,10 +17,13 @@ defmodule NelsonApproved.ArtificialIntelligence.Network do
     "https://amtera.p.mashape.com/relatedness/en"
     |> post([body: body(word1, word2)])
     |> Map.get(:body, "")
-    |> Poison.decode!
+    |> Poison.decode
+    |> extract_result
     |> Map.get("v", :error)
     |> map_zero_or_nil_to_error()
   end
+  defp extract_result({:ok, result}), do: result
+  defp extract_result({:error, _}),   do: %{}
   defp map_zero_or_nil_to_error(0.0), do: :error
   defp map_zero_or_nil_to_error(nil), do: :error
   defp map_zero_or_nil_to_error(val), do: val
