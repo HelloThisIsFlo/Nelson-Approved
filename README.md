@@ -44,7 +44,7 @@ use Mix.Config
 
 config :nelson_approved,
   mashape_key: "Can be empty",
-  network_ai_module: NelsonApproved.AiNetworkMock,
+  network_ai_module: NelsonApproved.AiNetworkMock
 ```
 
 ### Before the first start
